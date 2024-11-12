@@ -31,12 +31,12 @@ const Login = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <a href="https://www.example.com" rel="noopener noreferrer">Forget Password?</a>
+                <Link to="/reset-email">Forgot Password?</Link>
                 </Form.Group>
                 <Button type="submit">
                   Login
                 </Button>
-                <Link to="https://chatgpt.com/c/67265205-1064-800a-b232-c4adfe1e1e4f">
+                <Link to="/">
                     <Button style={{marginLeft:10}}>
                       Back
                     </Button>

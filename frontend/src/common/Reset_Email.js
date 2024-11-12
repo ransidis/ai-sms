@@ -30,7 +30,7 @@ const Reset_Email = () => {
                   </Button>
 
                   {/* Link to another page */}
-                  <Link to="https://chatgpt.com/c/67265205-1064-800a-b232-c4adfe1e1e4f">
+                  <Link to="/login">
                     <Button>
                       Back
                     </Button>
