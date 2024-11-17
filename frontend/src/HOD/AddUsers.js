@@ -8,7 +8,6 @@ import Header from '../common/Header';
 const AddUsers = () => {
   return (
     <div className="AddUsers">
-        <Header/>
       {/* Row for navigation buttons */}
       <Row className="mb-3">
         <Col>

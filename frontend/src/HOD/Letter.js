@@ -8,9 +8,6 @@ import Header from "../common/Header";
 const Letter = ({ student }) => {
   return (
     <div className="Letter d-flex flex-column justify-content-between p-4">
-      {/* Header */}
-      <Header />
-
       {/* Back Button */}
       <Row className="mb-4">
         <Col xs="auto">

@@ -13,26 +13,26 @@ import Letter from './HOD/Letter';
 import NewsDashboard from './News/NewsDashboard';
 import AddEditNews from './News/AddEditnews';
 import SingleNewsView from './News/SingeNewsView';
+import Header from './common/Header';
 
 function App() {
   const location = useLocation(); // Only use location here, no need for Router in App.js
 
   return (
     <div className="App">
-    <Container className='d-flex flex-column justify-content-around vh-100 '>
+    <Container className='d-flex flex-column justify-content-between vh-90 mt-5'>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-email" element={<Reset_Email />} />
         <Route path="/reset-pass" element={<Reset_Password/>} />
-        <Route path="/dashboard" element={<DashBoard/>} />
-        <Route path="/profile" element={<Profile/>} />
-        <Route path="/letter-request" element={<RequestLetter/>} />
-        <Route path="/add-users" element={<AddUsers/>} />
-        <Route path="/letter" element={<Letter/>} />
-        <Route path="/news" element={<NewsDashboard/>} />
+        <Route path="/dashboard" element={<><Header /><DashBoard/></>} />
+        <Route path="/profile" element={<><Header /><Profile/></>} />
+        <Route path="/letter-request" element={<><Header /><RequestLetter/></>} />
+        <Route path="/add-users" element={<><Header /><AddUsers/></>} />
+        <Route path="/letter" element={<><Header /><Letter/></>} />
         <Route path="/news-edit" element={<AddEditNews/>} />
-        <Route path="/news-view" element={<SingleNewsView/>} />
+        <Route path="/news" element={<><Header /><NewsDashboard /></>}/>
       </Routes>
     </Container>
 

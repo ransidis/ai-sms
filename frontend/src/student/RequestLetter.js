@@ -15,8 +15,6 @@ const RequestLetter = () => {
 
   return (
     <div className='RequestLetter'>
-      <Header/>
-    
     {role === "Student" && (
     <div className='Student'>
     <Row>

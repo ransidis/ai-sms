@@ -60,9 +60,6 @@ const Profile = () => {
 
   return (
     <div className='Profile'>
-      
-        <Header/>
-      
         {role === "Student" && (
           <Row className='student-row'>
             <Link to='/profile'><Button>👈 back</Button></Link>
