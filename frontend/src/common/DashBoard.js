@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 
 const DashBoard = () => {
   // Define the role (e.g., "Student", "Lecturer", "HOD")
-  const role = "Lecturer"
+  const role = "Student"
   return (
     <div className='Dashboard'>
       <div >
-        <Container className='d-flex flex-column justify-content-around vh-100 '>
+        
           <Row>
             <Col className='  d-flex flex-column text-center m-2'>
               <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
@@ -81,7 +81,7 @@ const DashBoard = () => {
               Latest News 1 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Latest News 2 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Latest News 3
             </marquee>
           </Row>
-        </Container>
+        
       </div>
     </div>
   );
