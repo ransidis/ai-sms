@@ -8,6 +8,11 @@ import DashBoard from './common/DashBoard';
 import Profile from './common/Profile';
 import RequestLetter from './student/RequestLetter';
 import Container from 'react-bootstrap/Container';
+import AddUsers from './HOD/AddUsers';
+import Letter from './HOD/Letter';
+import NewsDashboard from './News/NewsDashboard';
+import AddEditNews from './News/AddEditnews';
+import SingleNewsView from './News/SingeNewsView';
 
 function App() {
   const location = useLocation(); // Only use location here, no need for Router in App.js
@@ -23,6 +28,11 @@ function App() {
         <Route path="/dashboard" element={<DashBoard/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/letter-request" element={<RequestLetter/>} />
+        <Route path="/add-users" element={<AddUsers/>} />
+        <Route path="/letter" element={<Letter/>} />
+        <Route path="/news" element={<NewsDashboard/>} />
+        <Route path="/news-edit" element={<AddEditNews/>} />
+        <Route path="/news-view" element={<SingleNewsView/>} />
       </Routes>
     </Container>
 
