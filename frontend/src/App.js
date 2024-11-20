@@ -8,15 +8,15 @@ import DashBoard from './common/DashBoard';
 import Profile from './common/Profile';
 import RequestLetter from './student/RequestLetter';
 import Container from 'react-bootstrap/Container';
-import AddUsers from './HOD/AddUsers';
 import Letter from './HOD/Letter';
 import NewsDashboard from './News/NewsDashboard';
 import AddEditNews from './News/AddEditnews';
 import SingleNewsView from './News/SingeNewsView';
 import Header from './common/Header';
+import BulkUpload from './HOD/BulkUpload';
 
 function App() {
-  const location = useLocation(); // Only use location here, no need for Router in App.js
+  const location = useLocation();
 
   return (
     <div className="App">
@@ -29,10 +29,10 @@ function App() {
         <Route path="/dashboard" element={<><Header /><DashBoard/></>} />
         <Route path="/profile" element={<><Header /><Profile/></>} />
         <Route path="/letter-request" element={<><Header /><RequestLetter/></>} />
-        <Route path="/add-users" element={<><Header /><AddUsers/></>} />
         <Route path="/letter" element={<><Header /><Letter/></>} />
         <Route path="/news-edit" element={<AddEditNews/>} />
         <Route path="/news" element={<><Header /><NewsDashboard /></>}/>
+        <Route path="/addusers" element={<><Header /><BulkUpload/></>}/>
       </Routes>
     </Container>
 
