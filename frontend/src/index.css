@@ -23,14 +23,10 @@ Button:hover{
 
 
 .footer {
-  position: fixed; /* Fixed positioning */
-  left: 50%; /* Center the footer horizontally */
-  bottom: 0; /* Stick to the bottom of the page */
-  transform: translateX(-50%); /* Move it left by half its width */
   width: 100%; /* Full width */
   text-align: center; /* Center text inside footer */
   background-color: #bf1523; /* Background color */
   padding: 10px 0; /* Padding for spacing */
   border-top: 1px solid #dee2e6; /* Optional border for separation */
-  color:white;
+  color: white;
 }

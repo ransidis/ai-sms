@@ -4,7 +4,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Reset_Password = () => {
   // State for the passwords, validation message, and reset success
@@ -12,6 +13,10 @@ const Reset_Password = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState(true);  // flag to check if passwords match
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false); // flag for success message
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get('token');
 
   // Function to handle password changes
   const handlePasswordChange = (e) => {
@@ -26,11 +31,17 @@ const Reset_Password = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      // Simulate password reset logic here (e.g., API call)
-      setPasswordResetSuccess(true);
+      try {
+        const response = await axios.put('/api/update-password', { token, newPassword: password });
+        if (response.status === 200) {
+          setPasswordResetSuccess(true);
+        }
+      } catch (error) {
+        console.error('Error resetting password:', error);
+      }
     }
   };
 
@@ -66,7 +77,7 @@ const Reset_Password = () => {
 
                 <Button type="submit" disabled={!passwordMatch}>Reset</Button>
 
-                <Link to="https://chatgpt.com/c/67265205-1064-800a-b232-c4adfe1e1e4f">
+                <Link to="/reset-email">
                   <Button style={{ marginLeft: 10 }}>
                     Back
                   </Button>

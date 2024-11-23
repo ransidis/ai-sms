@@ -36,7 +36,7 @@ const Login = () => {
       localStorage.setItem('userEmail', decoded.email);
 
       alert('Login successful');
-      if (decoded.email === 'hod@sjp.ac.lk') {
+      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
         navigate('/hod-dashboard');
       } else {
         navigate(`/${decoded.user_type}-dashboard`);

@@ -33,6 +33,13 @@ const HODDashboard = () => {
             </Link>
           </Col>
           <Col className='d-flex flex-column text-center m-2'>
+            <Link to='/search-students'>
+              <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
+                View Student Details
+              </Button>
+            </Link>
+          </Col>
+          <Col className='d-flex flex-column text-center m-2'>
             <Link to=''>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
                 Edit News

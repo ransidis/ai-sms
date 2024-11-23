@@ -21,11 +21,11 @@ const BulkUpload = () => {
 
           if (uploadType === 'students') {
             // Filter out any empty rows for students
-            const validStudents = result.data.filter(student => student.fullname && student.email && student.user_type);
+            const validStudents = result.data.filter(student => student.fullname && student.email);
             setStudents(validStudents);
           } else if (uploadType === 'lecturers') {
             // Filter out any empty rows for lecturers
-            const validLecturers = result.data.filter(lecturer => lecturer.fullname && lecturer.email && lecturer.password && lecturer.user_type && lecturer.position && (lecturer.hod !== undefined));
+            const validLecturers = result.data.filter(lecturer => lecturer.fullname && lecturer.email && lecturer.password && lecturer.position);
             setLecturers(validLecturers);
           }
         },
@@ -46,7 +46,7 @@ const BulkUpload = () => {
           fullname: student.fullname,
           email: student.email,
           password: student.password, // You may want to hash this server-side
-          user_type: student.user_type,
+          user_type: 'student',
           cpm_no: student.cpm_no,
           registration_no: student.registration_no,
           cgpa: student.cgpa,
@@ -77,9 +77,9 @@ const BulkUpload = () => {
           fullname: lecturer.fullname,
           email: lecturer.email,
           password: lecturer.password, // You may want to hash this server-side
-          user_type: lecturer.user_type,
+          user_type: 'student',
           position: lecturer.position,
-          hod: lecturer.hod === 'true' || lecturer.hod === '1', // Convert string to boolean
+          hod: false, // Always send false
         };
 
         await axios.post('http://localhost:8080/api/lecturer/add', lecturerData);
@@ -130,7 +130,6 @@ const BulkUpload = () => {
               <tr>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>User Type</th>
                 <th>CPM No</th>
                 <th>Registration No</th>
                 <th>Batch</th>
@@ -143,7 +142,6 @@ const BulkUpload = () => {
                 <tr key={index}>
                   <td>{student.fullname}</td>
                   <td>{student.email}</td>
-                  <td>{student.user_type}</td>
                   <td>{student.cpm_no}</td>
                   <td>{student.registration_no}</td>
                   <td>{student.batch}</td>
@@ -169,9 +167,7 @@ const BulkUpload = () => {
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Password</th>
-                <th>User Type</th>
                 <th>Position</th>
-                <th>HOD</th>
               </tr>
             </thead>
             <tbody>
@@ -180,9 +176,7 @@ const BulkUpload = () => {
                   <td>{lecturer.fullname}</td>
                   <td>{lecturer.email}</td>
                   <td>{lecturer.password}</td>
-                  <td>{lecturer.user_type}</td>
                   <td>{lecturer.position}</td>
-                  <td>{lecturer.hod ? 'Yes' : 'No'}</td>
                 </tr>
               ))}
             </tbody>
