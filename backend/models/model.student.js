@@ -11,6 +11,7 @@ async function getStudentById(studentId) {
         students.cpm_no, 
         students.registration_no, 
         students.cgpa, 
+        students.batch,
         students.extra_curricular
         FROM users
         INNER JOIN students ON users.user_id = students.user_id

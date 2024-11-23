@@ -2,14 +2,20 @@ const express = require('express');
 const router = express.Router();
 const letterController = require('../controllers/controller.letter');
 
-// Route to generate new letter (type, purpose, address, user_id)
-router.post('/generate', letterController.generateLetterController);
+// send letter request (type, purpose, address)
+router.post('/request/:id', letterController.requestLetterController);
 
-// Route to update letter content (content)
-router.put('/update/:id', letterController.updateLetterContentController);
+// Route to generate new letter (lecturerId)
+router.put('/generate/:id', letterController.generateLetterController);
 
-// Update letter content (and sign) with image upload handling
+// Route to sign the letter (content)
 router.put('/sign/:id', letterController.updateLetterSignController);
+
+// Route to change the status of letter to approved (status, lecturerId)
+router.put('/status/:id', letterController.changeStatusController);
+
+// Get letter by ID
+router.get('/all', letterController.getAllLetterController);
 
 // Get letter by ID
 router.get('/details/:id', letterController.getLetterByIdController);

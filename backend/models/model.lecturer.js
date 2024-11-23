@@ -9,7 +9,6 @@ async function getLecturerById(lecturerId) {
         users.fullname, 
         users.user_type, 
         lecturers.position, 
-        lecturers.username, 
         lecturers.hod
         FROM users
         INNER JOIN lecturers ON users.user_id = lecturers.user_id
@@ -28,7 +27,6 @@ async function getAllLecturers() {
         users.fullname, 
         users.user_type, 
         lecturers.position, 
-        lecturers.username, 
         lecturers.hod
         FROM users
         INNER JOIN lecturers ON users.user_id = lecturers.user_id
