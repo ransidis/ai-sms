@@ -28,6 +28,10 @@ const Header = () => {
     navigate('/login');
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   if (!user) return null;
 
   return (
@@ -46,9 +50,12 @@ const Header = () => {
           </div>
         </div>
       </Col>
-      <Col className='d-flex flex-column text-end m-2'>
-        <Button onClick={handleLogout} variant="danger">
-          Log Out
+      <Col className='d-flex flex-row justify-content-end m-2'>
+        <Button onClick={handleBack} style={{ width: '20%', height: '50%', fontSize: '20px', marginRight: '10px' }}>
+          Back
+        </Button>
+        <Button onClick={handleLogout} style={{ width: '20%', height: '50%', fontSize: '20px' }}>
+          Logout
         </Button>
       </Col>
     </Row>

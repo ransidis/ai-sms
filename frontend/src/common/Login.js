@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,15 +22,27 @@ const Login = () => {
         email,
         password,
       });
-      const { token, user_type } = response.data;
+      const { token } = response.data;
 
-      // Store token and user type in localStorage
+      // Store token first
       localStorage.setItem('token', token);
-      localStorage.setItem('user_type', user_type);
+      
+      // Setup axios default header for future requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
+      // Get user data
+      const decoded = jwtDecode(token);
+      localStorage.setItem('userType', decoded.user_type);
+      localStorage.setItem('userEmail', decoded.email);
 
-      // Redirect to dashboard
-      navigate('/dashboard');
+      alert('Login successful');
+      if (decoded.email === 'hod@sjp.ac.lk') {
+        navigate('/hod-dashboard');
+      } else {
+        navigate(`/${decoded.user_type}-dashboard`);
+      }
     } catch (error) {
+      console.error('Login error:', error);
       alert(error.response?.data?.message || 'Login failed! Please try again.');
     }
   };
@@ -42,15 +55,23 @@ const Login = () => {
         'http://localhost:8080/api/user/auth/google',
         { id_token }
       );
-      const { token, user_type } = response.data;
+      const { token } = response.data;
 
-      // Store token and user type in localStorage
       localStorage.setItem('token', token);
-      localStorage.setItem('user_type', user_type);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
+      const decoded = jwtDecode(token);
+      localStorage.setItem('userType', decoded.user_type);
+      localStorage.setItem('userEmail', decoded.email);
 
-      // Redirect to dashboard
-      navigate('/dashboard');
+      alert('Google Login successful');
+      if (decoded.email === 'hod@sjp.ac.lk') {
+        navigate('/hod-dashboard');
+      } else {
+        navigate(`/${decoded.user_type}-dashboard`);
+      }
     } catch (error) {
+      console.error('Google login error:', error);
       alert(error.response?.data?.message || 'Google Login failed!');
     }
   };
