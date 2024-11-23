@@ -316,6 +316,32 @@ async function changeStatusController(req, res) {
   }
 }
 
+async function deleteLetterController(req, res) {
+  const letterId = req.params.id;
+
+  try {
+    const result = await letterModel.deleteLetter(letterId);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Letter not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Letter deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting letter:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+}
+
 module.exports = {
   getLetterByIdController,
   requestLetterController,
@@ -323,5 +349,6 @@ module.exports = {
   generateLetterController,
   updateLetterSignController,
   changeStatusController,
-  getAllLetterController
+  getAllLetterController,
+  deleteLetterController
 };

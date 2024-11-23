@@ -120,6 +120,15 @@ async function statusChange(letterId, updatedLetter) {
     }
 }
 
+async function deleteLetter(letterId) {
+  const query = `
+    DELETE FROM letter
+    WHERE id = ?
+  `;
+  const [result] = await db.execute(query, [letterId]);
+  return result;
+}
+
 module.exports = {
     getLetterById,
     getLetterByStudentId,
@@ -128,5 +137,6 @@ module.exports = {
     updateLetterContent,
     signLetter,
     statusChange,
-    getAllLetters
+    getAllLetters,
+    deleteLetter
 };

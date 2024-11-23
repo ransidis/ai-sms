@@ -23,4 +23,7 @@ router.get('/details/:id', letterController.getLetterByIdController);
 // Get letter history by student ID
 router.get('/history/:id', letterController.getLetterByStudentIdController);
 
+// Route to delete a letter by ID
+router.delete('/delete/:id', letterController.deleteLetterController);
+
 module.exports = router;
