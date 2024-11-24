@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -61,7 +62,14 @@ const SearchStudents = () => {
   // Update student information
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/student/update/${studentInfo.user_id}`, updatedInfo);
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      const editorEmail = decoded.email;
+
+      await axios.put(`http://localhost:8080/api/student/update/${studentInfo.user_id}`, {
+        ...updatedInfo,
+        who_edited: editorEmail,
+      });
       setStudentInfo(updatedInfo);
       setIsEditing(false);
       alert('Student details updated successfully');

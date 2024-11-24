@@ -52,6 +52,7 @@ const BulkUpload = () => {
           cgpa: student.cgpa,
           batch: student.batch,
           extra_curricular: student.extra_curricular,
+          who_edited: null, // Add this line
         };
 
         await axios.post('http://localhost:8080/api/student/add', studentData);

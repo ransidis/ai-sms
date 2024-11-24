@@ -18,15 +18,15 @@ const LecturerDashboard = () => {
   return (
     <div className='Dashboard'>
       <Container>
-      
         <Row className='lecturer-row'>
+          
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/lecturer-profile'>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
                 Edit Profile
               </Button>
             </Link>
-          </Col>
+          </Col> 
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/search-students'>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>

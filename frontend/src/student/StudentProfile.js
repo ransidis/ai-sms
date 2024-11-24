@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
@@ -51,7 +50,14 @@ const StudentProfile = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/student/update/${userId}`, updatedInfo);
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      const editorEmail = decoded.email;
+
+      await axios.put(`http://localhost:8080/api/student/update/${userId}`, {
+        ...updatedInfo,
+        who_edited: editorEmail,
+      });
       setStudentInfo(updatedInfo);
       setIsEditing(false);
       alert('Student details updated successfully');
@@ -88,7 +94,7 @@ const StudentProfile = () => {
                   type="email"
                   name="email"
                   value={updatedInfo.email}
-                  readOnly={!isEditing}
+                  readOnly
                   onChange={handleInputChange}
                 />
               </Form.Group>
@@ -118,8 +124,7 @@ const StudentProfile = () => {
                   type="text"
                   name="cgpa"
                   value={updatedInfo.cgpa}
-                  readOnly={!isEditing}
-                  onChange={handleInputChange}
+                  readOnly
                 />
               </Form.Group>
             </Form>
@@ -146,6 +151,9 @@ const StudentProfile = () => {
               <Button onClick={() => setIsEditing(true)}>Edit</Button>
             )}
           </div>
+          {updatedInfo.who_edited && (
+            <p className="text-muted mt-2">Your profile was last edited by {updatedInfo.who_edited}</p>
+          )}
         </Col>
       </Row>
     </Container>

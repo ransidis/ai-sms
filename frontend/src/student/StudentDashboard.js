@@ -20,13 +20,14 @@ const StudentDashboard = () => {
       <Container>
 
         <Row className='student-row'>
+          
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/student-profile'>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
                 Edit Profile
               </Button>
             </Link>
-          </Col>
+          </Col> 
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/request-letter'>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
