@@ -1,42 +1,49 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 const NewsDashboard = () => {
   const [newsList, setNewsList] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [userType, setUserType] = useState(''); // Add state for user type
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Mock sample news data with categories
-    const sampleNews = [
-      {
-        title: 'New University Policy Announced',
-        description: 'A brief about the new university policy updates.',
-        author: 'Admin',
-        date: '10/11/2024',
-        category: 'Urgent',
-      },
-      {
-        title: 'Seminar on AI Innovations',
-        description: 'Join us for an insightful seminar on AI trends.',
-        author: 'Tech Team',
-        date: '09/11/2024',
-        category: 'Technology',
-      },
-      {
-        title: 'Scholarship Opportunities',
-        description: 'Details about upcoming scholarship programs.',
-        author: 'Admissions Office',
-        date: '08/11/2024',
-        category: 'Education',
-      },
-    ];
+    const fetchNews = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/news/all');
+        setNewsList(response.data.data);
+        setFilteredNews(response.data.data);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
 
-    // Simulate fetching data
-    setTimeout(() => {
-      setNewsList(sampleNews);
-      setFilteredNews(sampleNews);
-    }, 500);
+    fetchNews();
   }, []);
+
+  useEffect(() => {
+    // Fetch user type from token
+    const fetchUserType = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          setUserType(decoded.user_type);
+        } catch (error) {
+          console.error('Invalid token:', error);
+          localStorage.removeItem('token');
+          navigate('/login');
+        }
+      } else {
+        navigate('/login');
+      }
+    };
+
+    fetchUserType();
+  }, [navigate]);
 
   // Handle search
   const handleSearch = () => {
@@ -49,11 +56,19 @@ const NewsDashboard = () => {
     setFilteredNews(filtered);
   };
 
+  const handleNewsClick = (id) => {
+    navigate(`/news/${id}`);
+  };
+
   return (
     <div className="news-dashboard container">
       {/* Row for Add New and Search */}
       <div className="d-flex justify-content-between align-items-center my-3">
-        <button className="btn btn-danger">Add New</button>
+        {userType === 'lecturer' && (
+          <button className="btn btn-danger" onClick={() => navigate('/add-news')}>
+            Add New
+          </button>
+        )}
         <div className="input-group" style={{ maxWidth: '400px' }}>
           <input
             type="text"
@@ -72,7 +87,7 @@ const NewsDashboard = () => {
       <div className="news-list">
         {filteredNews.length > 0 ? (
           filteredNews.map((news, index) => (
-            <div className="card mb-3" key={index}>
+            <div className="card mb-3" key={index} onClick={() => handleNewsClick(news.id)} style={{ cursor: 'pointer' }}>
               <div className="card-body">
                 <h5 className="card-title">{news.title}</h5>
                 <p className="card-text">{news.description}</p>

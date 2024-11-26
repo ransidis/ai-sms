@@ -1,5 +1,5 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,6 +9,21 @@ import { Link } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const [urgentNews, setUrgentNews] = useState([]);
+
+  useEffect(() => {
+    const fetchUrgentNews = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/news/all');
+        const urgentNews = response.data.data.filter(news => news.category === 'Urgent');
+        setUrgentNews(urgentNews);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+
+    fetchUrgentNews();
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -18,7 +33,15 @@ const StudentDashboard = () => {
   return (
     <div className='Dashboard'>
       <Container>
-
+        {urgentNews.length > 0 && (
+          <marquee>
+            {urgentNews.map((news, index) => (
+              <Link key={index} to={`/news/${news.id}`} style={{ marginRight: '20px', color: 'inherit', textDecoration: 'none' }}>
+                {news.title}
+              </Link>
+            ))}
+          </marquee>
+        )}
         <Row className='student-row'>
           
           <Col className='d-flex flex-column text-center m-2'>
