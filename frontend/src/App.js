@@ -2,8 +2,8 @@ import './App.css';
 import { Route, Routes, useLocation, BrowserRouter as Router, Navigate } from 'react-router-dom';
 import Home from './common/Home';
 import Login from './common/Login';
-import Reset_Email from './common/Reset_Email';
-import Reset_Password from './common/Reset_Password';
+import ResetEmail from './common/ResetEmail';
+import ResetPassword from './common/ResetPassword';
 import NewsDashboard from './News/NewsDashboard';
 import AddEditNews from './News/AddEditnews';
 import SingleNewsView from './News/SingeNewsView';
@@ -37,8 +37,8 @@ function App() {
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/reset-email" element={<Reset_Email />} />
-            <Route path="/reset-pass" element={<Reset_Password />} />
+            <Route path="/reset-email" element={<ResetEmail />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/news-edit" element={<AddEditNews />} />
             <Route path="/news" element={<NewsDashboard />} />
             <Route path="/addusers" element={<BulkUpload />} />

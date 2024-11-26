@@ -7,35 +7,30 @@ import Form from 'react-bootstrap/Form';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-const Reset_Password = () => {
-  // State for the passwords, validation message, and reset success
+const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordMatch, setPasswordMatch] = useState(true);  // flag to check if passwords match
-  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false); // flag for success message
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
 
-  // Function to handle password changes
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  // Function to handle confirm password changes
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
-    // Check if the passwords match
     setPasswordMatch(e.target.value === password);
   };
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
       try {
-        const response = await axios.put('/api/update-password', { token, newPassword: password });
+        const response = await axios.put('http://localhost:8080/api/user/update-password', { token, newPassword: password });
         if (response.status === 200) {
           setPasswordResetSuccess(true);
         }
@@ -83,8 +78,6 @@ const Reset_Password = () => {
                   </Button>
                 </Link>
               </Form>
-
-              {/* Show the success message if password reset is successful */}
               {passwordResetSuccess && (
                 <div className="mt-3 text-success">
                   <p>Password reset successful. <Link to="/login">Click here to login</Link></p>
@@ -98,4 +91,4 @@ const Reset_Password = () => {
   );
 };
 
-export default Reset_Password;
+export default ResetPassword;
