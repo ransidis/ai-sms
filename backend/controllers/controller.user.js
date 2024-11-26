@@ -181,7 +181,7 @@ async function responseResetLink(req, res) {
       if (!user) {
           return res.status(404).json({
               success: false,
-              message: 'Email not found!'
+              message: 'Your email is not registered on the system!'
           });
       }
 
@@ -213,7 +213,7 @@ async function responseResetLink(req, res) {
     const mailOptions = {
         from: `"Support" <hello@demomailtrap.com>`, 
         to: email,
-        subject: 'Password Reset Request',
+        subject: 'AI SMS - Password Reset Request',
         html: `<p>Hello ${user.fullname},</p>
                 <p>You requested to reset your password. Click the link below to reset it:</p>
                 <a href="${resetLink}">Reset Password</a>
