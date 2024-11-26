@@ -139,12 +139,10 @@ async function googleLogin(req, res) {
       user.google_id = googleId; // Update the user object locally
     }
 
-    console.log(user.user_id)
     // Generate a JWT token
     const token = jwt.sign(
-
       {
-        id: user.id,
+        user_id: user.user_id,
         email: user.email,
         fullname: user.fullname,
         user_type: user.user_type

@@ -118,7 +118,7 @@ async function addStudentController(req, res) {
 // Controller function to handle updating a student
 async function updateStudentController(req, res) {
     const studentId = req.params.id;
-    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular } = req.body;
+    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited } = req.body;
   
     // Validate input data
     if (!fullname || !cpm_no || !registration_no || cgpa === undefined || !batch || !extra_curricular) {
@@ -137,6 +137,7 @@ async function updateStudentController(req, res) {
         cgpa,
         batch,
         extra_curricular,
+        who_edited,
       });
   
       if (!result.success) {

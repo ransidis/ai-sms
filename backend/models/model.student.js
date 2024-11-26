@@ -12,7 +12,8 @@ async function getStudentById(studentId) {
         students.registration_no, 
         students.cgpa, 
         students.batch,
-        students.extra_curricular
+        students.extra_curricular,
+        students.who_edited
         FROM users
         INNER JOIN students ON users.user_id = students.user_id
         WHERE users.user_id = ? AND users.user_type = 'student';
@@ -53,7 +54,7 @@ async function createStudent(student) {
 
 // Function to update fullname in users and other details in students
 async function updateStudentDetails(userId, studentData) {
-    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular } = studentData;
+    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited } = studentData;
   
     // Update query for `users` table
     const updateUserQuery = `
@@ -70,7 +71,8 @@ async function updateStudentDetails(userId, studentData) {
         registration_no = ?,
         cgpa = ?,
         batch = ?,
-        extra_curricular = ?
+        extra_curricular = ?,
+        who_edited = ?
       WHERE user_id = ?
     `;
   
@@ -89,6 +91,7 @@ async function updateStudentDetails(userId, studentData) {
         cgpa,
         batch,
         extra_curricular,
+        who_edited,
         userId,
       ]);
   

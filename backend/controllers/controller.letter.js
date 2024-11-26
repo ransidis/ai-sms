@@ -153,7 +153,7 @@ async function generateLetterController(req, res) {
         Don't add \'\'\'html and \'\'\'
         Generate letter to return html web page. use html tags.
 
-        if no addrress set use default address as Faculty of Management Studies and Commerce, University of Jayewardenepura, Nugegoda, 10250.
+        if no addrress set use default address as Faculty of Management Studies and Commerce, University of Jayewardenepura, Gangodawila, Nugegoda.
 
         Letter details:
         Write a formal ${letter.type} letter addressed to ${letter.address} . 
