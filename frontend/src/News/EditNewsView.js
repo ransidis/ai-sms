@@ -61,12 +61,27 @@ const EditNewsView = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:8080/api/news/delete/${id}`);
+      navigate('/news');
+    } catch (error) {
+      console.error('Error deleting news:', error);
+    }
+  };
+
   if (userType !== 'lecturer') {
     return <p>Unauthorized</p>;
   }
 
   return (
     <div className="edit-news-view container">
+      <nav aria-label="breadcrumb">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><a href="/news">News</a></li>
+          <li className="breadcrumb-item active" aria-current="page">Edit News</li>
+        </ol>
+      </nav>
       <div className="row">
         <div className="col-md-8">
           <h3>Edit News</h3>
@@ -92,6 +107,7 @@ const EditNewsView = () => {
                 value={news.content}
                 onChange={handleContentChange}
                 required
+                
               />
             </div>
             <div className="form-group">
@@ -107,6 +123,7 @@ const EditNewsView = () => {
               />
             </div>
             <button type="submit" className="btn btn-primary mt-2">Update News</button>
+            <button type="button" className="btn btn-danger mt-2 ms-2" onClick={handleDelete}>Delete News</button>
           </form>
         </div>
       </div>

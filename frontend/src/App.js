@@ -5,8 +5,8 @@ import Login from './common/Login';
 import ResetEmail from './common/ResetEmail';
 import ResetPassword from './common/ResetPassword';
 import NewsDashboard from './News/NewsDashboard';
-import SingleNewsView from './News/SingleNewsView'; // Import SingleNewsView
-import EditNewsView from './News/EditNewsView'; // Import EditNewsView
+import SingleNewsView from './News/SingleNewsView';
+import EditNewsView from './News/EditNewsView';
 
 import BulkUpload from './HOD/BulkUpload';
 import Header from './common/Header';
@@ -41,12 +41,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/reset-email" element={<ResetEmail />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-           
+
             <Route path="/news" element={<NewsDashboard />} />
             <Route path="/news/:id" element={<SingleNewsView />} /> {/* Add route for SingleNewsView */}
             <Route path="/add-news" element={<AddNews />} />
             <Route path="/addusers" element={<BulkUpload />} />
-            
+
             <Route path="/hod-dashboard" element={isLoggedIn ? <HODDashboard /> : <Navigate to="/login" />} />
             <Route path="/student-dashboard" element={isLoggedIn ? <StudentDashboard /> : <Navigate to="/login" />} />
             <Route path="/lecturer-dashboard" element={isLoggedIn ? <LecturerDashboard /> : <Navigate to="/login" />} />
@@ -56,7 +56,7 @@ function App() {
             <Route path="/request-letter" element={isLoggedIn ? <RequestLetter /> : <Navigate to="/login" />} />
             <Route path="/letter-requests" element={isLoggedIn ? <DisplayLetter /> : <Navigate to="/login" />} />
             <Route path="/edit/:id" element={isLoggedIn ? <EditLetter /> : <Navigate to="/login" />} />
-            <Route path="/edit-news/:id" element={isLoggedIn ? <EditNewsView /> : <Navigate to="/login" />} /> {/* Add route for EditNewsView */}
+            <Route path="/edit-news/:id" element={isLoggedIn ? <EditNewsView /> : <Navigate to="/login" />} />
           </Routes>
         </div>
         <div className="footer">

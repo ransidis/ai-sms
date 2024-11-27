@@ -44,12 +44,19 @@ const SingleNewsView = () => {
     <div className="single-news-view container">
       <div className="row">
         <div className="col-md-8">
-          <h3>{news.title}</h3>
-          <div dangerouslySetInnerHTML={{ __html: news.content }} />
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item"><a href="/lecturer-dashboard">Home</a></li>
+              <li className="breadcrumb-item"><a href="/news">News</a></li>
+              <li className="breadcrumb-item active" aria-current="page">{news.title}</li>
+            </ol>
+          </nav>
+          <h3 className='fw-bold text-danger'>{news.title}</h3>
+          <div className='fw-light' dangerouslySetInnerHTML={{ __html: news.content }} />
         </div>
         <div className="col-md-4">
           <div className="more-info mt-4">
-            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Posted By:</strong> {user.email}</p>
             <p><strong>Category:</strong> {news.category}</p>
             {userType === 'lecturer' && (
               <a href={`/edit-news/${id}`} className="btn btn-primary mt-2">Edit this news</a>

@@ -33,15 +33,6 @@ const StudentDashboard = () => {
   return (
     <div className='Dashboard'>
       <Container>
-        {urgentNews.length > 0 && (
-          <marquee>
-            {urgentNews.map((news, index) => (
-              <Link key={index} to={`/news/${news.id}`} style={{ marginRight: '20px', color: 'inherit', textDecoration: 'none' }}>
-                {news.title}
-              </Link>
-            ))}
-          </marquee>
-        )}
         <Row className='student-row'>
           
           <Col className='d-flex flex-column text-center m-2'>
@@ -64,6 +55,22 @@ const StudentDashboard = () => {
                 View Department News
               </Button>
             </Link>
+          </Col>
+        </Row>
+        <Row className='mt-5 border border-secondary rounded text-danger'>
+          <Col sm={2} className='fw-bold' >
+            Urgent News :
+          </Col>
+          <Col >
+          {urgentNews.length > 0 && (
+          <marquee className='fw-bolder text-decoration-underline'>
+            {urgentNews.map((news, index) => (
+              <Link key={index} to={`/news/${news.id}`} style={{ marginRight: '20px', color: 'inherit', textDecoration: 'none' }}>
+                {news.title}
+              </Link>
+            ))}
+          </marquee>
+        )}
           </Col>
         </Row>
       </Container>
