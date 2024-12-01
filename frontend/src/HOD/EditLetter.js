@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import the Quill editor styles
 import axios from "axios";
-import jsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
 
 const EditLetter = () => {
   const { id } = useParams(); // Get the letter ID from the URL
@@ -121,28 +121,29 @@ const EditLetter = () => {
   };
 
   const handleDownloadPDF = () => {
-    const doc = new jsPDF({
-      format: 'a4',
-      unit: 'mm',
-    });
+    // Create a container for the letter content
+    const pdfContent = document.createElement('div');
+    pdfContent.style.fontFamily = "Times New Roman, serif";
+    pdfContent.style.fontSize = "15px";
+    pdfContent.style.lineHeight = "1.5";
+    pdfContent.style.margin = "10mm"; // Normal margins (1 inch)
+    pdfContent.style.textAlign = "justify"; // Justify the content
 
-    // Render HTML content to plain text with formatting
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = editorContent;
-    const formattedContent = tempElement.innerHTML;
+    // Insert editor content into the container
+    pdfContent.innerHTML = editorContent; // Load content from the editor
 
-    const splitContent = doc.splitTextToSize(formattedContent, 190); // Split text to fit the paper width
+    // Set options for html2pdf.js
+    const options = {
+      margin: [10, 10, 10, 10], // 1 inch margin on all sides
+      filename: 'letter.pdf',
+      html2canvas: { scale: 2 }, // Improve canvas quality
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
 
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Letter Details", 10, 20); // Adjust the y-coordinate
-
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(splitContent, 10, 30); // Adjust the y-coordinate
-
-    doc.save("letter.pdf");
+    // Generate and download the PDF
+    html2pdf().set(options).from(pdfContent).save();
   };
+
 
   return (
     <div className="container mt-5">

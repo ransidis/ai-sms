@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
+import { PersonCircle } from 'react-bootstrap-icons';
+import { Calendar } from 'react-bootstrap-icons';
+import { Breadcrumb } from 'react-bootstrap';
 
 const NewsDashboard = () => {
   const [newsList, setNewsList] = useState([]);
@@ -11,21 +14,6 @@ const NewsDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/news/all');
-        setNewsList(response.data.data);
-        setFilteredNews(response.data.data);
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    };
-
-    fetchNews();
-  }, []);
-
-  useEffect(() => {
-    // Fetch user type from token
     const fetchUserType = async () => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -45,13 +33,19 @@ const NewsDashboard = () => {
     fetchUserType();
   }, [navigate]);
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   // Handle search
   const handleSearch = () => {
     const filtered = newsList.filter(
       (news) =>
-        news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        news.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        news.category.toLowerCase().includes(searchQuery.toLowerCase())
+        (news.title && news.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (news.description && news.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (news.category && news.category.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (news.lecturerEmail && news.lecturerEmail.toLowerCase().includes(searchQuery.toLowerCase())) || // Match lecturer email
+        (news.date && news.date.includes(searchQuery)) // Match date
     );
     setFilteredNews(filtered);
   };
@@ -60,8 +54,51 @@ const NewsDashboard = () => {
     navigate(`/news/${id}`);
   };
 
+  // Fetch lecturer details
+  const fetchLecturerDetails = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/lecturer/details/${userId}`);
+      return response.data.data.email;
+    } catch (error) {
+      console.error('Error fetching lecturer details:', error);
+      return 'Unknown';
+    }
+  };
+
+  useEffect(() => {
+    const fetchNewsWithLecturer = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/news/all');
+        const newsData = response.data.data;
+
+        // Fetch lecturer emails for each news item
+        const newsWithLecturer = await Promise.all(
+          newsData.map(async (news) => {
+            const email = await fetchLecturerDetails(news.user_id);
+            // Format date to remove text after 'T'
+            const formattedDate = news.date.split('T')[0];
+            return { ...news, lecturerEmail: email, date: formattedDate };
+          })
+        );
+
+        setNewsList(newsWithLecturer);
+        setFilteredNews(newsWithLecturer);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+
+    fetchNewsWithLecturer();
+  }, []);
+
   return (
     <div className="news-dashboard container">
+      {/* Breadcrumb */}
+      <Breadcrumb>
+        <Breadcrumb.Item onClick={handleBack}>Home</Breadcrumb.Item>
+        <Breadcrumb.Item active>News</Breadcrumb.Item>
+      </Breadcrumb>
+
       {/* Row for Add New and Search */}
       <div className="d-flex justify-content-between align-items-center my-3">
         {userType === 'lecturer' && (
@@ -92,8 +129,8 @@ const NewsDashboard = () => {
                 <h5 className="card-title">{news.title}</h5>
                 <p className="card-text">{news.description}</p>
                 <small className="text-muted">
-                  <i className="bi bi-person"></i> {news.author} |{' '}
-                  <i className="bi bi-calendar"></i> {news.date}
+                  <PersonCircle/> {news.lecturerEmail} |{' '}
+                  <Calendar/> {news.date}
                 </small>
                 <span className={`badge ms-3 ${getCategoryClass(news.category)}`}>
                   {news.category}
@@ -114,12 +151,12 @@ const getCategoryClass = (category) => {
   switch (category) {
     case 'Urgent':
       return 'bg-danger text-white';
-    case 'Technology':
+    case 'Academic':
       return 'bg-primary text-white';
-    case 'Education':
+    case 'Internship':
       return 'bg-success text-white';
     default:
-      return 'bg-secondary text-white';
+      return 'bg-dark text-white';
   }
 };
 

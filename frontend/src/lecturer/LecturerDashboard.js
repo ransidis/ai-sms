@@ -35,7 +35,7 @@ const LecturerDashboard = () => {
             </Link>
           </Col>
           <Col className='d-flex flex-column text-center m-2'>
-            <Link to=''>
+            <Link to='/news'>
               <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
                 Add/Edit News
               </Button>

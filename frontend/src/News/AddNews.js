@@ -13,6 +13,7 @@ const AddNews = () => {
     user_id: ''
   });
   const [error, setError] = useState('');
+  const [userType, setUserType] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const AddNews = () => {
       try {
         const decoded = jwtDecode(token);
         setNewsData((prevData) => ({ ...prevData, user_id: decoded.user_id }));
+        setUserType(decoded.user_type);
       } catch (error) {
         console.error('Error decoding token:', error);
         setError('Invalid token');
@@ -39,17 +41,28 @@ const AddNews = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:8080/api/news/add', newsData);
+      const response = await axios.post('http://localhost:8080/api/news/add', newsData);
       alert('News added successfully');
-      navigate('/news-dashboard');
+      navigate(`/news`);
     } catch (error) {
       console.error('Error adding news:', error);
       setError('Error adding news');
     }
   };
 
+  if (userType === 'student') {
+    return <p>Unauthorized</p>;
+  }
+
   return (
     <div className="add-news container">
+      <nav aria-label="breadcrumb">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><a href="/lecturer-dashboard">Home</a></li>
+          <li className="breadcrumb-item"><a href="/news">News</a></li>
+          <li className="breadcrumb-item active" aria-current="page">Add News</li>
+        </ol>
+      </nav>
       <h4 className="mb-4">Add News Article</h4>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="mb-3">
@@ -76,8 +89,9 @@ const AddNews = () => {
         >
           <option value="">Select Category</option>
           <option value="Urgent">Urgent</option>
-          <option value="Technology">Technology</option>
-          <option value="Education">Education</option>
+          <option value="Academic">Academic</option>
+          <option value="Internship">Internship</option>
+          <option value="Competitions">Competitions</option>
         </select>
       </div>
       <button className="btn btn-danger" onClick={handleSubmit}>

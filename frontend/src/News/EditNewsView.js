@@ -112,15 +112,20 @@ const EditNewsView = () => {
             </div>
             <div className="form-group">
               <label htmlFor="category">Category</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 id="category"
                 name="category"
                 value={news.category}
                 onChange={handleChange}
                 required
-              />
+              >
+                <option value="">Select Category</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Academic">Academic</option>
+                <option value="Internship">Internship</option>
+                <option value="Competitions">Competitions</option>
+              </select>
             </div>
             <button type="submit" className="btn btn-primary mt-2">Update News</button>
             <button type="button" className="btn btn-danger mt-2 ms-2" onClick={handleDelete}>Delete News</button>
