@@ -159,6 +159,7 @@ const RequestLetter = () => {
                   <option value="">Select Type</option>
                   <option value="Recommendation letter">Recommendation letter</option>
                   <option value="Internship Introduction Letter">Internship Introduction Letter</option>
+                  <option value="Endorsement Letter">Endorsement Letter</option>
                 </select>
               </div>
               <div className="form-group">
