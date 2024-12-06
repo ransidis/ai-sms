@@ -14,6 +14,7 @@ const StudentProfile = () => {
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [updatedInfo, setUpdatedInfo] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   const fetchStudentInfo = useCallback(async (userId) => {
     try {
@@ -60,7 +61,7 @@ const StudentProfile = () => {
       });
       setStudentInfo(updatedInfo);
       setIsEditing(false);
-      alert('Student details updated successfully');
+      setSuccessMessage('Student details updated successfully');
     } catch (error) {
       console.error('Error updating student information:', error);
       setError('Error updating student information');
@@ -153,6 +154,9 @@ const StudentProfile = () => {
           </div>
           {updatedInfo.who_edited && (
             <p className="text-muted mt-2">Your profile was last edited by {updatedInfo.who_edited}</p>
+          )}
+          {successMessage && (
+            <p className="text-success mt-2 border p-2">{successMessage}</p>
           )}
         </Col>
       </Row>

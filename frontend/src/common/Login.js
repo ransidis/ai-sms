@@ -12,6 +12,8 @@ import {jwtDecode} from 'jwt-decode';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'success' or 'danger'
   const navigate = useNavigate();
 
   // Handle email/password login
@@ -35,7 +37,8 @@ const Login = () => {
       localStorage.setItem('userType', decoded.user_type);
       localStorage.setItem('userEmail', decoded.email);
 
-      alert('Login successful');
+      setMessageType('success');
+      setMessage('Login successful');
       if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
         navigate('/hod-dashboard');
       } else {
@@ -43,7 +46,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert(error.response?.data?.message || 'Login failed! Please try again.');
+      setMessageType('danger');
+      setMessage(error.response?.data?.message || 'Invalid email or password!');
     }
   };
 
@@ -64,7 +68,8 @@ const Login = () => {
       localStorage.setItem('userType', decoded.user_type);
       localStorage.setItem('userEmail', decoded.email);
 
-      alert('Google Login successful');
+      setMessageType('success');
+      setMessage('Google Login successful');
       if (decoded.email === 'hod@sjp.ac.lk') {
         navigate('/hod-dashboard');
       } else {
@@ -72,7 +77,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Google login error:', error);
-      alert(error.response?.data?.message || 'Google Login failed!');
+      setMessageType('danger');
+      setMessage(error.response?.data?.message || 'Google Login failed!');
     }
   };
 
@@ -120,17 +126,27 @@ const Login = () => {
                 <Link to='/' style={{ marginLeft: 10 }}>
                   <Button>Back</Button>
                 </Link>
+                {message && (
+                  <div className={`mt-3 alert alert-${messageType}`}>
+                    {message}
+                  </div>
+                )}
               </Form>
             </Col>
           </Row>
-          <Row className='mt-4 text-center'>
+          <Row className='mt-4 text-center d-flex flex-column justify-content-center align-items-center'>
             <h3>Or Login with Google</h3>
+            <div style={{ width: '20%'}}>
             <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
-                onError={() => alert('Google Sign-In Failed')}
+                onError={() => {
+                  setMessageType('danger');
+                  setMessage('Google Sign-In Failed');
+                }}
               />
             </GoogleOAuthProvider>
+            </div>
           </Row>
         </Container>
       </div>
