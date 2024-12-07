@@ -88,6 +88,9 @@ const NewsDashboard = () => {
           })
         );
 
+        // Sort news by date in descending order
+        newsWithLecturer.sort((a, b) => new Date(b.date) - new Date(a.date));
+
         setNewsList(newsWithLecturer);
         setFilteredNews(newsWithLecturer);
       } catch (error) {

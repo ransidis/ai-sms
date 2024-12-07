@@ -41,8 +41,10 @@ const Login = () => {
       setMessage('Login successful');
       if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
         navigate('/hod-dashboard');
-      } else {
-        navigate(`/${decoded.user_type}-dashboard`);
+      } else if (decoded.user_type === 'student') {
+        navigate('/student-dashboard');
+      } else if (decoded.user_type === 'lecturer') {
+        navigate('/lecturer-dashboard');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -70,10 +72,12 @@ const Login = () => {
 
       setMessageType('success');
       setMessage('Google Login successful');
-      if (decoded.email === 'hod@sjp.ac.lk') {
+      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
         navigate('/hod-dashboard');
-      } else {
-        navigate(`/${decoded.user_type}-dashboard`);
+      } else if (decoded.user_type === 'student') {
+        navigate('/student-dashboard');
+      } else if (decoded.user_type === 'lecturer') {
+        navigate('/lecturer-dashboard');
       }
     } catch (error) {
       console.error('Google login error:', error);

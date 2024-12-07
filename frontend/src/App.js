@@ -29,6 +29,7 @@ import AddNews from './News/AddNews';
 
 function App() {
   const location = useLocation();
+  const userType = localStorage.getItem('userType');
   const isLoggedIn = !!localStorage.getItem('token');
 
   return (
@@ -47,15 +48,15 @@ function App() {
             <Route path="/add-news" element={<AddNews />} />
             <Route path="/addusers" element={<BulkUpload />} />
 
-            <Route path="/hod-dashboard" element={isLoggedIn ? <HODDashboard /> : <Navigate to="/login" />} />
-            <Route path="/student-dashboard" element={isLoggedIn ? <StudentDashboard /> : <Navigate to="/login" />} />
-            <Route path="/lecturer-dashboard" element={isLoggedIn ? <LecturerDashboard /> : <Navigate to="/login" />} />
-            <Route path="/student-profile" element={isLoggedIn ? <StudentProfile /> : <Navigate to="/login" />} />
-            <Route path="/lecturer-profile" element={isLoggedIn ? <LecturerProfile /> : <Navigate to="/login" />} />
-            <Route path="/search-students" element={isLoggedIn ? <SearchStudents /> : <Navigate to="/login" />} />
-            <Route path="/request-letter" element={isLoggedIn ? <RequestLetter /> : <Navigate to="/login" />} />
-            <Route path="/letter-requests" element={isLoggedIn ? <DisplayLetter /> : <Navigate to="/login" />} />
-            <Route path="/edit/:id" element={isLoggedIn ? <EditLetter /> : <Navigate to="/login" />} />
+            <Route path="/hod-dashboard" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <HODDashboard /> : <Navigate to="/login" />} />
+            <Route path="/student-dashboard" element={isLoggedIn && userType === 'student' ? <StudentDashboard /> : <Navigate to="/login" />} />
+            <Route path="/lecturer-dashboard" element={isLoggedIn && userType === 'lecturer' ? <LecturerDashboard /> : <Navigate to="/login" />} />
+            <Route path="/student-profile" element={isLoggedIn && userType === 'student' ? <StudentProfile /> : <Navigate to="/login" />} />
+            <Route path="/lecturer-profile" element={isLoggedIn && userType === 'lecturer' ? <LecturerProfile /> : <Navigate to="/login" />} />
+            <Route path="/search-students" element={isLoggedIn && userType === 'lecturer' ? <SearchStudents /> : <Navigate to="/login" />} />
+            <Route path="/request-letter" element={isLoggedIn && userType === 'student' ? <RequestLetter /> : <Navigate to="/login" />} />
+            <Route path="/letter-requests" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <DisplayLetter /> : <Navigate to="/login" />} />
+            <Route path="/edit/:id" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <EditLetter /> : <Navigate to="/login" />} />
             <Route path="/edit-news/:id" element={isLoggedIn ? <EditNewsView /> : <Navigate to="/login" />} />
           </Routes>
         </div>
