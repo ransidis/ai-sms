@@ -9,6 +9,8 @@ const DisplayLetter = () => {
   const [loading, setLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false); // New state for preloader
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
+  const [filterType, setFilterType] = useState(""); // New state for letter type filter
+  const [filterStatus, setFilterStatus] = useState(""); // New state for letter status filter
   const navigate = useNavigate();
 
   // Fetch all letters
@@ -123,13 +125,15 @@ const updateStatus = async (id, newStatus) => {
 
   // Combine letters with students based on user_id
   const getLetterWithStudentData = () => {
-    return letters.map((letter) => {
-      const student = students.find((student) => student.user_id === letter.user_id);
-      return {
-        ...letter,
-        registration_no: student ? student.registration_no : "N/A",
-      };
-    });
+    return letters
+      .map((letter) => {
+        const student = students.find((student) => student.user_id === letter.user_id);
+        return {
+          ...letter,
+          registration_no: student ? student.registration_no : "N/A",
+        };
+      })
+      .sort((a, b) => new Date(b.request_date) - new Date(a.request_date)); // Sort by request date descending
   };
 
   const handleGenerate = async (id) => {
@@ -218,7 +222,9 @@ const updateStatus = async (id, newStatus) => {
 
   const mergedLetters = getLetterWithStudentData();
   const filteredLetters = mergedLetters.filter(letter =>
-    letter.registration_no.toLowerCase().includes(searchTerm.toLowerCase())
+    letter.registration_no.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (filterType === "" || letter.type === filterType) &&
+    (filterStatus === "" || letter.status === filterStatus)
   );
 
   return (
@@ -229,8 +235,8 @@ const updateStatus = async (id, newStatus) => {
         </div>
       )}
       <div className={`display-letter-container ${isGenerating ? "blur" : ""}`}>
-        <div className="d-flex justify-content-between align-items-center">
-          <h2>Available Letters</h2>
+        <h2 className="mb-4">Available Letters</h2>
+        <div className="d-flex justify-content-between align-items-center mb-3">
           <input
             type="text"
             className="form-control w-25"
@@ -238,6 +244,28 @@ const updateStatus = async (id, newStatus) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <select
+            className="form-control w-25 ml-2"
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="">All Types</option>
+            <option value="Recommendation letter">Recommendation letter</option>
+            <option value="Internship Introduction Letter">Internship Introduction Letter</option>
+            {/* Add more options as needed */}
+          </select>
+          <select
+            className="form-control w-25 ml-2"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">All Statuses</option>
+            <option value="Pending Approval">Pending Approval</option>
+            <option value="Approved">Approved</option>
+            <option value="Processing">Processing</option>
+            <option value="Ready">Ready</option>
+            {/* Add more options as needed */}
+          </select>
         </div>
         {loading ? (
           <p>Loading...</p>

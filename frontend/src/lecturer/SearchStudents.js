@@ -179,6 +179,19 @@ const SearchStudents = () => {
                         onChange={handleInputChange}
                       />
                     </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Gender</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="gender"
+                        value={updatedInfo.gender || 'Male'}
+                        readOnly={!isEditing}
+                        onChange={handleInputChange}
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </Form.Control>
+                    </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-3">

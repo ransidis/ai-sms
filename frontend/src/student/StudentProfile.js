@@ -19,8 +19,12 @@ const StudentProfile = () => {
   const fetchStudentInfo = useCallback(async (userId) => {
     try {
       const response = await axios.get(`http://localhost:8080/api/student/details/${userId}`);
-      setStudentInfo(response.data.data);
-      setUpdatedInfo(response.data.data);
+      const studentData = response.data.data;
+      setStudentInfo(studentData);
+      setUpdatedInfo({
+        ...studentData,
+        gender: studentData.gender !== undefined && studentData.gender !== null ? studentData.gender : '', // Ensure gender is set correctly
+      });
     } catch (error) {
       console.error('Error fetching student information:', error);
       setError('Error fetching student information');
@@ -57,6 +61,7 @@ const StudentProfile = () => {
 
       await axios.put(`http://localhost:8080/api/student/update/${userId}`, {
         ...updatedInfo,
+        gender: updatedInfo.gender || 'Male', // Ensure gender is included
         who_edited: editorEmail,
       });
       setStudentInfo(updatedInfo);
@@ -136,6 +141,21 @@ const StudentProfile = () => {
                   readOnly
                   style={{ backgroundColor: '#e9ecef' }}
                 />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Gender</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="gender"
+                  value={updatedInfo.gender}
+                  onChange={handleInputChange}
+                  style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
+                  disabled={!isEditing}
+                >
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </Form.Control>
               </Form.Group>
             </Form>
           ) : (

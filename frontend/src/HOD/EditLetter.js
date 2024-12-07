@@ -125,7 +125,7 @@ const EditLetter = () => {
     const pdfContent = document.createElement('div');
     pdfContent.style.fontFamily = "Times New Roman, serif";
     pdfContent.style.fontSize = "15px";
-    pdfContent.style.lineHeight = "1.5";
+    pdfContent.style.lineHeight = "1.5"; // Reduced line spacing
     pdfContent.style.margin = "10mm"; // Normal margins (1 inch)
     pdfContent.style.textAlign = "justify"; // Justify the content
 
