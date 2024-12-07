@@ -13,7 +13,8 @@ async function getStudentById(studentId) {
         students.cgpa, 
         students.batch,
         students.extra_curricular,
-        students.who_edited
+        students.who_edited,
+        students.gender
         FROM users
         INNER JOIN students ON users.user_id = students.user_id
         WHERE users.user_id = ? AND users.user_type = 'student';
@@ -33,7 +34,9 @@ async function getAllStudents() {
         students.cpm_no, 
         students.registration_no, 
         students.cgpa, 
-        students.extra_curricular
+        students.batch, 
+        students.extra_curricular,
+        students.gender
         FROM users
         INNER JOIN students ON users.user_id = students.user_id
         WHERE users.user_type = 'student';
@@ -44,17 +47,17 @@ async function getAllStudents() {
 
 // Function to create a new student
 async function createStudent(student) {
-    const { user_id, cpm_no, registration_no, cgpa, batch, extra_curricular } = student;
+    const { user_id, cpm_no, registration_no, cgpa, batch, extra_curricular, gender } = student;
     const query = `
-      INSERT INTO students (user_id, cpm_no, registration_no, cgpa, batch, extra_curricular)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO students (user_id, cpm_no, registration_no, cgpa, batch, extra_curricular, gender)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
-    await db.execute(query, [user_id, cpm_no, registration_no, cgpa, batch, extra_curricular]);
+    await db.execute(query, [user_id, cpm_no, registration_no, cgpa, batch, extra_curricular, gender || 'Male']);
 }
 
 // Function to update fullname in users and other details in students
 async function updateStudentDetails(userId, studentData) {
-    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited } = studentData;
+    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited, gender } = studentData;
   
     // Update query for `users` table
     const updateUserQuery = `
@@ -72,7 +75,8 @@ async function updateStudentDetails(userId, studentData) {
         cgpa = ?,
         batch = ?,
         extra_curricular = ?,
-        who_edited = ?
+        who_edited = ?,
+        gender = ?
       WHERE user_id = ?
     `;
   
@@ -92,6 +96,7 @@ async function updateStudentDetails(userId, studentData) {
         batch,
         extra_curricular,
         who_edited,
+        gender,
         userId,
       ]);
   

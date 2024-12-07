@@ -49,7 +49,7 @@ async function getAllStudentsController(req, res) {
 
 // Controller for adding a new student
 async function addStudentController(req, res) {
-    const { fullname, email, password, user_type, cpm_no, registration_no, cgpa, batch, extra_curricular } = req.body;
+    const { fullname, email, password, user_type, cpm_no, registration_no, cgpa, batch, extra_curricular, gender } = req.body;
   
     // Basic validation
     if (!fullname || !email || !password || !user_type || !cpm_no || !batch || !registration_no) {
@@ -96,7 +96,8 @@ async function addStudentController(req, res) {
           registration_no,
           cgpa,
           batch,
-          extra_curricular
+          extra_curricular,
+          gender: gender || 'Male'
         };
         await studentModel.createStudent(newStudent);
       }
@@ -118,7 +119,7 @@ async function addStudentController(req, res) {
 // Controller function to handle updating a student
 async function updateStudentController(req, res) {
     const studentId = req.params.id;
-    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited } = req.body;
+    const { fullname, cpm_no, registration_no, cgpa, batch, extra_curricular, who_edited, gender } = req.body;
   
     // Validate input data
     if (!fullname || !cpm_no || !registration_no || cgpa === undefined || !batch || !extra_curricular) {
@@ -138,6 +139,7 @@ async function updateStudentController(req, res) {
         batch,
         extra_curricular,
         who_edited,
+        gender,
       });
   
       if (!result.success) {

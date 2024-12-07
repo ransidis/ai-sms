@@ -144,6 +144,9 @@ async function generateLetterController(req, res) {
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
 
+    // Ensure gender is passed correctly
+    const gender = student.gender;
+
     const today = new Date();
     const today_date = today.toISOString().split('T')[0];
 
@@ -151,7 +154,7 @@ async function generateLetterController(req, res) {
     const prompt = `
         I need to directly display your generated output on my webpage. please only generate letter.
         Don't add \'\'\'html and \'\'\'
-        Generate letter to return html web page. use html tags.
+        Generate letter to return html web page. use html tags. 
 
         if no addrress set use default address as Faculty of Management Studies and Commerce, University of Jayewardenepura, Gangodawila, Nugegoda.
 
@@ -161,6 +164,7 @@ async function generateLetterController(req, res) {
         
         Letter requested by  student:
         Applicant's Name: ${student.fullname}
+        Applicant's gender: ${gender}
         Applicant's Position: student
         Applicant's registration Number: ${student.registration_no}
         Applicant's CGPA: ${student.cgpa}
@@ -169,10 +173,11 @@ async function generateLetterController(req, res) {
 
         My details:
         My name: ${lecturer.fullname}
-        Address: Faculty of Management Studies and Commerce,
+        Address: Department of Information Technology,
+              Faculty of Management Studies and Commerce,
               University of Jayewardenepura,
-              Nugegoda,
-              10250
+              Gangodawila, Nugegoda.
+              
         My position: ${lecturer.position}
 
 
@@ -186,15 +191,17 @@ async function generateLetterController(req, res) {
                 ${lecturer.hod ? "Head of the Department, " : ""}${lecturer.position}
               </span><br />
               <span id="lecturerFullName">${lecturer.fullname}</span><br />
+              Department of Information Technology,<br />
               Faculty of Management Studies and Commerce,<br />
               University of Jayewardenepura,<br />
-              Nugegoda,<br />
-              10250
+              Gangodawila, Nugegoda.<br />
+              
             </p>
           </div>
 
           <div>
             <p>
+              <br/>
               <span id="letterAddress">${letter.address}</span>
             </p>
           </div>
@@ -210,6 +217,7 @@ async function generateLetterController(req, res) {
               <!-- Content generated dynamically by Gemini -->
               Applicant's Name: ${student.fullname}
               Applicant's Position: student
+              Applicant's gender: ${gender}
               Applicant's registration Number: ${student.registration_no}
               Applicant's CGPA: ${student.cgpa}
               Applicant's Batch: ${student.batch}
@@ -217,15 +225,16 @@ async function generateLetterController(req, res) {
               [Content will be generated here by Gemini]
             </p>
           </div>
-
+          <br/>
           <div>
             <p>
               Sincerely,<br />
               <span id="lecturerSignature">${lecturer.fullname}</span><br />
+              Department of Information Technology,<br />
               Faculty of Management Studies and Commerce,<br />
               University of Jayewardenepura,<br />
-              Nugegoda,<br />
-              10250
+              Gangodawila, Nugegoda.<br />
+              
             </p>
           </div>
         </div>
