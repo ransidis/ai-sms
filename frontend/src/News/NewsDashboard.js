@@ -11,6 +11,9 @@ const NewsDashboard = () => {
   const [filteredNews, setFilteredNews] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [userType, setUserType] = useState(''); // Add state for user type
+  const [selectedCategory, setSelectedCategory] = useState(''); // Add state for selected category
+  const [startDate, setStartDate] = useState(''); // Add state for start date
+  const [endDate, setEndDate] = useState(''); // Add state for end date
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,11 +44,14 @@ const NewsDashboard = () => {
   const handleSearch = () => {
     const filtered = newsList.filter(
       (news) =>
-        (news.title && news.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((news.title && news.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (news.description && news.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (news.category && news.category.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (news.lecturerEmail && news.lecturerEmail.toLowerCase().includes(searchQuery.toLowerCase())) || // Match lecturer email
-        (news.date && news.date.includes(searchQuery)) // Match date
+        (news.date && news.date.includes(searchQuery))) && // Match date
+        (selectedCategory === '' || news.category === selectedCategory) && // Filter by selected category
+        (startDate === '' || new Date(news.date) >= new Date(startDate)) && // Filter by start date
+        (endDate === '' || new Date(news.date) <= new Date(endDate)) // Filter by end date
     );
     setFilteredNews(filtered);
   };
@@ -58,7 +64,8 @@ const NewsDashboard = () => {
   const fetchLecturerDetails = async (userId) => {
     try {
       const response = await axios.get(`http://localhost:8080/api/lecturer/details/${userId}`);
-      return response.data.data.email;
+      const { fullname, email } = response.data.data;
+      return `${fullname} (${email})`; // Return full name and email
     } catch (error) {
       console.error('Error fetching lecturer details:', error);
       return 'Unknown';
@@ -71,13 +78,13 @@ const NewsDashboard = () => {
         const response = await axios.get('http://localhost:8080/api/news/all');
         const newsData = response.data.data;
 
-        // Fetch lecturer emails for each news item
+        // Fetch lecturer details for each news item
         const newsWithLecturer = await Promise.all(
           newsData.map(async (news) => {
-            const email = await fetchLecturerDetails(news.user_id);
+            const lecturerDetails = await fetchLecturerDetails(news.user_id);
             // Format date to remove text after 'T'
             const formattedDate = news.date.split('T')[0];
-            return { ...news, lecturerEmail: email, date: formattedDate };
+            return { ...news, lecturerDetails, date: formattedDate };
           })
         );
 
@@ -106,13 +113,41 @@ const NewsDashboard = () => {
             Add New
           </button>
         )}
-        <div className="input-group" style={{ maxWidth: '400px' }}>
+        <div className="input-group w-100">
           <input
             type="text"
-            className="form-control"
+            className="form-control me-2"
             placeholder="Search for news..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <select
+            className="form-select me-2"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Urgent">Urgent</option>
+            <option value="Academic">Academic</option>
+            <option value="Internship">Internship</option>
+          </select>
+          <input
+            placeholder="Start Date"
+            className="form-control me-2 textbox-n"
+            type="text"
+            onFocus={(e) => (e.target.type = 'date')}
+            onBlur={(e) => (e.target.type = 'text')}
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          <input
+            placeholder="End Date"
+            className="form-control me-2 textbox-n"
+            type="text"
+            onFocus={(e) => (e.target.type = 'date')}
+            onBlur={(e) => (e.target.type = 'text')}
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
           />
           <button className="btn btn-primary" onClick={handleSearch}>
             Search
@@ -124,22 +159,23 @@ const NewsDashboard = () => {
       <div className="news-list">
         {filteredNews.length > 0 ? (
           filteredNews.map((news, index) => (
-            <div className="card mb-3" key={index} onClick={() => handleNewsClick(news.id)} style={{ cursor: 'pointer' }}>
+            <div className="card mb-3 shadow-sm" key={index} onClick={() => handleNewsClick(news.id)} style={{ cursor: 'pointer' }}>
               <div className="card-body">
                 <h5 className="card-title">{news.title}</h5>
-                <p className="card-text">{news.description}</p>
-                <small className="text-muted">
-                  <PersonCircle/> {news.lecturerEmail} |{' '}
-                  <Calendar/> {news.date}
-                </small>
-                <span className={`badge ms-3 ${getCategoryClass(news.category)}`}>
-                  {news.category}
-                </span>
+                <p className="card-text text-secondary">{news.description}</p>
+                <div className="d-flex justify-content-between align-items-center">
+                  <small className="text-muted">
+                    <Calendar /> {news.date} &nbsp;|&nbsp; <PersonCircle /> {news.lecturerDetails}
+                  </small>
+                  <span className={`badge ${getCategoryClass(news.category)}`}>
+                    {news.category}
+                  </span>
+                </div>
               </div>
             </div>
           ))
         ) : (
-          <p>No news found.</p>
+          <p className="text-center text-muted">No news found.</p>
         )}
       </div>
     </div>

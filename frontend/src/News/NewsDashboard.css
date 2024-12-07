@@ -1,0 +1,40 @@
+
+.news-dashboard {
+  padding: 20px;
+}
+
+.news-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.news-card .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.news-card .card-text {
+  margin: 10px 0;
+}
+
+.news-card .text-muted {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.news-card .badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
