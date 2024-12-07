@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 
 const LecturerProfile = () => {
   const [userId, setUserId] = useState('');
@@ -60,49 +61,58 @@ const LecturerProfile = () => {
   };
 
   return (
-    <Row className='lecturer-row'>
-      <Col md={6} className='d-flex flex-column m-2'>
-        <h3>Lecturer Profile</h3>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {lecturerInfo ? (
-          <Form>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">Full Name</Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  name="fullname"
-                  value={updatedInfo.fullname}
-                  readOnly={!isEditing}
-                  onChange={handleInputChange}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="4">Position</Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  name="position"
-                  value={updatedInfo.position}
-                  readOnly={!isEditing}
-                  onChange={handleInputChange}
-                />
-              </Col>
-            </Form.Group>
-            
-            
-            <div className="d-flex align-items-start justify-content-end">
-              {isEditing ? (
-                <Button onClick={handleUpdate}>Save</Button>
-              ) : (
-                <Button onClick={() => setIsEditing(true)}>Edit</Button>
-              )}
-            </div>
-          </Form>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </Col>
-    </Row>
+    <Container style={{ marginTop: '20px' }}>
+      <Row className="mb-3">
+        <Col>
+          <Link to="/lecturer-dashboard">
+            <Button variant="secondary">Back</Button>
+          </Link>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <h3>Lecturer Profile</h3>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {lecturerInfo ? (
+            <Form>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="4">Full Name</Form.Label>
+                <Col sm="8">
+                  <Form.Control
+                    name="fullname"
+                    value={updatedInfo.fullname}
+                    readOnly={!isEditing}
+                    onChange={handleInputChange}
+                    style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm="4">Position</Form.Label>
+                <Col sm="8">
+                  <Form.Control
+                    name="position"
+                    value={updatedInfo.position}
+                    readOnly={!isEditing}
+                    onChange={handleInputChange}
+                    style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
+                  />
+                </Col>
+              </Form.Group>
+              <div className="d-flex align-items-start justify-content-end">
+                {isEditing ? (
+                  <Button variant="success" onClick={handleUpdate}>Save</Button>
+                ) : (
+                  <Button variant="primary" onClick={() => setIsEditing(true)}>Edit</Button>
+                )}
+              </div>
+            </Form>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

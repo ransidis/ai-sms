@@ -111,11 +111,6 @@ const NewsDashboard = () => {
 
       {/* Row for Add New and Search */}
       <div className="d-flex justify-content-between align-items-center my-3">
-        {userType === 'lecturer' && (
-          <button className="btn btn-danger" onClick={() => navigate('/add-news')}>
-            Add New
-          </button>
-        )}
         <div className="input-group w-100">
           <input
             type="text"
@@ -157,6 +152,13 @@ const NewsDashboard = () => {
           </button>
         </div>
       </div>
+      {userType === 'lecturer' && (
+        <div className="d-flex justify-content-end my-3">
+          <button className="btn btn-danger" onClick={() => navigate('/add-news')}>
+            Add New
+          </button>
+        </div>
+      )}
 
       {/* News List */}
       <div className="news-list">

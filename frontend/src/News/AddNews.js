@@ -55,7 +55,7 @@ const AddNews = () => {
   }
 
   return (
-    <div className="add-news container">
+    <div className="add-news container mt-5">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item"><a href="/lecturer-dashboard">Home</a></li>
@@ -73,11 +73,16 @@ const AddNews = () => {
           name="title"
           value={newsData.title}
           onChange={handleChange}
+          style={{ borderColor: '#ced4da', borderRadius: '0.25rem' }}
         />
       </div>
       <div className="mb-3">
         <label className="form-label">Content</label>
-        <ReactQuill value={newsData.content} onChange={handleContentChange} />
+        <ReactQuill 
+          value={newsData.content} 
+          onChange={handleContentChange} 
+          style={{ height: '200px', marginBottom: '50px' }}
+        />
       </div>
       <div className="mb-3">
         <label className="form-label">Category</label>
@@ -86,6 +91,7 @@ const AddNews = () => {
           name="category"
           value={newsData.category}
           onChange={handleChange}
+          style={{ borderColor: '#ced4da', borderRadius: '0.25rem' }}
         >
           <option value="">Select Category</option>
           <option value="Urgent">Urgent</option>
@@ -94,7 +100,11 @@ const AddNews = () => {
           <option value="Competitions">Competitions</option>
         </select>
       </div>
-      <button className="btn btn-danger" onClick={handleSubmit}>
+      <button 
+        className="btn btn-danger" 
+        onClick={handleSubmit}
+        style={{ backgroundColor: '#dc3545', borderColor: '#dc3545', marginBottom: '20px' }}
+      >
         Save & Publish
       </button>
     </div>

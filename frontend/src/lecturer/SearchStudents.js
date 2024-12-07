@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -90,31 +90,34 @@ const SearchStudents = () => {
   };
 
   return (
-    <div className="Dashboard">
+    <div className="Dashboard" style={{ padding: '20px' }}>
       <Container>
-       
-        <Row className="student-row">
+        <Row className="student-row" style={{ marginBottom: '20px' }}>
           <Col className="d-flex flex-column text-center m-2">
             <Form.Group className="mb-3">
               <Form.Label>Search by Name or Email</Form.Label>
-              <Form.Control
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Button onClick={handleSearch} style={{ marginTop: '10px' }}>Search</Button>
+              <div className="d-flex">
+                <Form.Control
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ marginRight: '10px' }}
+                />
+                <Button onClick={handleSearch} variant="primary">Search</Button>
+              </div>
             </Form.Group>
           </Col>
         </Row>
-        <Row className="student-row">
+        <Row className="student-row" style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '5px' }}>
           <Col className="d-flex flex-column text-center m-2">
             {filteredSuggestions.length > 0 && (
-              <ul>
+              <ul className="list-group">
                 {filteredSuggestions.map((student) => (
                   <li
                     key={student.user_id}
                     onClick={() => fetchStudentInfo(student.user_id)}
-                    style={{ cursor: 'pointer', marginBottom: '5px', color: 'blue' }}
+                    className="list-group-item list-group-item-action"
+                    style={{ cursor: 'pointer', marginBottom: '5px' }}
                   >
                     {student.fullname} ({student.email})
                   </li>
@@ -191,9 +194,9 @@ const SearchStudents = () => {
                     </Form.Group>
                     <div className="d-flex align-items-start justify-content-end">
                       {isEditing ? (
-                        <Button onClick={handleUpdate}>Save</Button>
+                        <Button onClick={handleUpdate} variant="success">Save</Button>
                       ) : (
-                        <Button onClick={() => setIsEditing(true)}>Edit</Button>
+                        <Button onClick={() => setIsEditing(true)} variant="warning">Edit</Button>
                       )}
                     </div>
                   </Col>

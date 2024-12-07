@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import { FaUserEdit, FaEnvelope, FaNewspaper } from 'react-icons/fa'; // Import icons
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -32,45 +33,55 @@ const StudentDashboard = () => {
 
   return (
     <div className='Dashboard'>
-      <Container>
+      <Container fluid>
         <Row className='student-row'>
           
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/student-profile'>
-              <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
-                Edit Profile
+              <Button style={{ width: '100%', height: '100px', fontSize: '20px' }}>
+                <FaUserEdit size={50} /> {/* Icon */}
+                <div>Edit Profile</div> {/* Text */}
               </Button>
             </Link>
           </Col> 
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/request-letter'>
-              <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
-                Letter Requests
+              <Button style={{ width: '100%', height: '100px', fontSize: '20px' }}>
+                <FaEnvelope size={50} /> {/* Icon */}
+                <div>Letter Requests</div> {/* Text */}
               </Button>
             </Link>
           </Col>
           <Col className='d-flex flex-column text-center m-2'>
             <Link to='/news'>
-              <Button style={{ width: '100%', height: '150%', fontSize: '20px' }}>
-                View Department News
+              <Button style={{ width: '100%', height: '100px', fontSize: '20px' }}>
+                <FaNewspaper size={50} /> {/* Icon */}
+                <div>View Department News</div> {/* Text */}
               </Button>
             </Link>
           </Col>
         </Row>
-        <Row className='mt-5 border border-secondary rounded text-danger'>
-          <Col sm={2} className='fw-bold' >
-            Urgent News :
+        <Row className='mt-5'>
+          <Col sm={2} className='fw-bold text-danger d-flex align-items-center justify-content-center'>
+            Urgent News:
           </Col>
-          <Col >
-          {urgentNews.length > 0 && (
-          <marquee className='fw-bolder text-decoration-underline'>
-            {urgentNews.map((news, index) => (
-              <Link key={index} to={`/news/${news.id}`} style={{ marginRight: '20px', color: 'inherit', textDecoration: 'none' }}>
-                {news.title}
-              </Link>
-            ))}
-          </marquee>
-        )}
+          <Col>
+            {urgentNews.length > 0 && (
+              <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', backgroundColor: '#f8d7da', padding: '10px', borderRadius: '5px' }}>
+                <marquee behavior="scroll" direction="left" scrollamount="5">
+                  {urgentNews.map((news, index) => (
+                    <Link
+                      key={index}
+                      to={`/news/${news.id}`}
+                      className='text-danger fw-bolder text-decoration-underline'
+                      style={{ marginRight: '20px', display: 'inline-block' }}
+                    >
+                      {news.title}
+                    </Link>
+                  ))}
+                </marquee>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>

@@ -75,7 +75,7 @@ const EditNewsView = () => {
   }
 
   return (
-    <div className="edit-news-view container">
+    <div className="edit-news-view container mt-5">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item"><a href="/news">News</a></li>
@@ -84,9 +84,9 @@ const EditNewsView = () => {
       </nav>
       <div className="row">
         <div className="col-md-8">
-          <h3>Edit News</h3>
+          <h3 className="mb-4">Edit News</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="form-group mb-4">
               <label htmlFor="title">Title</label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ const EditNewsView = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mb-4">
               <label htmlFor="content">Content</label>
               <ReactQuill
                 className="form-control"
@@ -110,7 +110,7 @@ const EditNewsView = () => {
                 
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mb-4">
               <label htmlFor="category">Category</label>
               <select
                 className="form-control"
@@ -127,8 +127,10 @@ const EditNewsView = () => {
                 <option value="Competitions">Competitions</option>
               </select>
             </div>
-            <button type="submit" className="btn btn-primary mt-2">Update News</button>
-            <button type="button" className="btn btn-danger mt-2 ms-2" onClick={handleDelete}>Delete News</button>
+            <div className="d-flex justify-content-between mb-4">
+              <button type="submit" className="btn btn-primary">Update News</button>
+              <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete News</button>
+            </div>
           </form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -69,9 +69,13 @@ const StudentProfile = () => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col><Link to="/student-dashboard"><Button>Back</Button></Link></Col>
+    <Container style={{ marginTop: '20px' }}>
+      <Row className="mb-3">
+        <Col>
+          <Link to="/student-dashboard">
+            <Button variant="secondary">Back</Button>
+          </Link>
+        </Col>
       </Row>
       <Row>
         <Col md={6}>
@@ -87,6 +91,7 @@ const StudentProfile = () => {
                   value={updatedInfo.fullname}
                   readOnly={!isEditing}
                   onChange={handleInputChange}
+                  style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -97,6 +102,7 @@ const StudentProfile = () => {
                   value={updatedInfo.email}
                   readOnly
                   onChange={handleInputChange}
+                  style={{ backgroundColor: '#e9ecef' }}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -107,6 +113,7 @@ const StudentProfile = () => {
                   value={updatedInfo.registration_no}
                   readOnly={!isEditing}
                   onChange={handleInputChange}
+                  style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -117,6 +124,7 @@ const StudentProfile = () => {
                   value={updatedInfo.batch}
                   readOnly={!isEditing}
                   onChange={handleInputChange}
+                  style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -126,6 +134,7 @@ const StudentProfile = () => {
                   name="cgpa"
                   value={updatedInfo.cgpa}
                   readOnly
+                  style={{ backgroundColor: '#e9ecef' }}
                 />
               </Form.Group>
             </Form>
@@ -143,13 +152,14 @@ const StudentProfile = () => {
               value={updatedInfo.extra_curricular}
               readOnly={!isEditing}
               onChange={handleInputChange}
+              style={{ backgroundColor: isEditing ? '#fff' : '#e9ecef' }}
             />
           </Form.Group>
           <div className="d-flex align-items-start justify-content-end">
             {isEditing ? (
-              <Button onClick={handleUpdate}>Save</Button>
+              <Button variant="success" onClick={handleUpdate}>Save</Button>
             ) : (
-              <Button onClick={() => setIsEditing(true)}>Edit</Button>
+              <Button variant="primary" onClick={() => setIsEditing(true)}>Edit</Button>
             )}
           </div>
           {updatedInfo.who_edited && (
