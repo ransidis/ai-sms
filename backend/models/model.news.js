@@ -2,12 +2,12 @@ const db = require('../connection');
 
 // Function to create a new news entry
 async function createNews(news) {
-    const { title, content, date, category, user_id } = news;
+    const { title, content, date, category, user_id, urgent_expire } = news;
     const query = `
-        INSERT INTO news (title, content, date, category, user_id)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO news (title, content, date, category, user_id, urgent_expire)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
-    await db.execute(query, [title, content, date, category, user_id]);
+    await db.execute(query, [title, content, date, category, user_id, urgent_expire]);
 }
 
 // Function to get all news entries
@@ -32,13 +32,13 @@ async function getNewsById(newsId) {
 
 // Function to update a news entry
 async function updateNews(newsId, newsData) {
-    const { title, content, category } = newsData;
+    const { title, content, category, urgent_expire } = newsData;
     const query = `
         UPDATE news
-        SET title = ?, content = ?, category = ?
+        SET title = ?, content = ?, category = ?, urgent_expire = ?
         WHERE id = ?
     `;
-    await db.execute(query, [title, content, category, newsId]);
+    await db.execute(query, [title, content, category, urgent_expire, newsId]);
 }
 
 // Function to delete a news entry

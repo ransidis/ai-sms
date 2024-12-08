@@ -2,7 +2,7 @@ const newsModel = require('../models/model.news');
 
 // Controller for adding a new news entry
 async function addNewsController(req, res) {
-    const { title, content, category, user_id } = req.body;
+    const { title, content, category, user_id, urgent_expire } = req.body;
 
     // Basic validation
     if (!title || !content || !category || !user_id) {
@@ -16,7 +16,7 @@ async function addNewsController(req, res) {
     const date = today.toISOString().split('T')[0];
 
     try {
-        const newsData = { title, content, date, category, user_id };
+        const newsData = { title, content, date, category, user_id, urgent_expire };
         await newsModel.createNews(newsData);
 
         return res.status(201).json({
@@ -79,7 +79,7 @@ async function getNewsByIdController(req, res) {
 // Controller to update a news entry
 async function updateNewsController(req, res) {
     const newsId = req.params.id;
-    const { title, content, category } = req.body;
+    const { title, content, category, urgent_expire } = req.body;
 
     if (!title || !content || !category) {
         return res.status(400).json({
@@ -89,7 +89,7 @@ async function updateNewsController(req, res) {
     }
 
     try {
-        await newsModel.updateNews(newsId, { title, content, category });
+        await newsModel.updateNews(newsId, { title, content, category, urgent_expire });
 
         return res.status(200).json({
             success: true,
