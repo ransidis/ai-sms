@@ -3,6 +3,8 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import jsPDF from "jspdf"; // Import jsPDF
+import html2pdf from "html2pdf.js"; // Import html2pdf
+import headerimg from "../HOD/uni_header.png"; // Import the header image
 
 const RequestLetter = () => {
   const [letterHistory, setLetterHistory] = useState([]);
@@ -112,31 +114,37 @@ const RequestLetter = () => {
 
   // Function to handle PDF download
   const handleDownloadPDF = (content) => {
-    const doc = new jsPDF({
-      format: 'a4',
-      unit: 'mm',
-    });
+    // Create a container for the letter content
+    const pdfContent = document.createElement('div');
+    pdfContent.style.fontFamily = "Times New Roman, serif";
+    pdfContent.style.fontSize = "13px";
+    pdfContent.style.lineHeight = "1.5"; // Reduced line spacing
+    pdfContent.style.margin = "-10mm 10mm 10mm 10mm"; // Normal margins (1 inch)
+    pdfContent.style.textAlign = "justify"; // Justify the content
 
-    // Add image as header
-    const imgData = ''; // Replace with your valid base64 image data
-    doc.addImage(imgData, 'PNG', 10, 10, 190, 30); // Adjust the dimensions as needed
+    // Add university header image
+    const headerImg = document.createElement('img');
+    headerImg.src = headerimg; // Use the correct variable for the image source
+    headerImg.style.width = '130%';
+    headerImg.style.marginLeft = '-30mm'; // Add margin to the top of the header
+    headerImg.style.marginBottom = '10mm'; 
+    pdfContent.appendChild(headerImg);
 
-    // Convert HTML content to plain text with line breaks
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = content;
-    const plainTextContent = tempElement.innerText.replace(/\n/g, '\n\n'); // Double line breaks for paragraphs
+    // Insert editor content into the container
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = content; // Load content from the editor
+    pdfContent.appendChild(contentDiv);
 
-    const splitContent = doc.splitTextToSize(plainTextContent, 190); // Split text to fit the paper width
+    // Set options for html2pdf.js
+    const options = {
+      margin: [0, 10, 10, 10], // 1 inch margin on all sides
+      filename: 'letter.pdf',
+      html2canvas: { scale: 2 }, // Improve canvas quality
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
 
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Letter Details", 10, 50); // Adjust the y-coordinate to fit below the image
-
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(splitContent, 10, 60); // Adjust the y-coordinate to fit below the image
-
-    doc.save("letter.pdf");
+    // Generate and download the PDF
+    html2pdf().set(options).from(pdfContent).save();
   };
 
   return (

@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import the Quill editor styles
 import axios from "axios";
 import html2pdf from "html2pdf.js";
+import headerimg from "../HOD/uni_header.png"; // Correct the path to the header image
 
 const EditLetter = () => {
   const { id } = useParams(); // Get the letter ID from the URL
@@ -124,17 +125,27 @@ const EditLetter = () => {
     // Create a container for the letter content
     const pdfContent = document.createElement('div');
     pdfContent.style.fontFamily = "Times New Roman, serif";
-    pdfContent.style.fontSize = "12px";
+    pdfContent.style.fontSize = "13px";
     pdfContent.style.lineHeight = "1.5"; // Reduced line spacing
-    pdfContent.style.margin = "10mm"; // Normal margins (1 inch)
+    pdfContent.style.margin = "-10mm 10mm 10mm 10mm"; // Normal margins (1 inch)
     pdfContent.style.textAlign = "justify"; // Justify the content
 
+    // Add university header image
+    const headerImg = document.createElement('img');
+    headerImg.src = headerimg; // Use the correct variable for the image source
+    headerImg.style.width = '130%';
+    headerImg.style.marginLeft = '-30mm'; // Add margin to the top of the header
+    headerImg.style.marginBottom = '10mm'; 
+    pdfContent.appendChild(headerImg);
+
     // Insert editor content into the container
-    pdfContent.innerHTML = editorContent; // Load content from the editor
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = editorContent; // Load content from the editor
+    pdfContent.appendChild(contentDiv);
 
     // Set options for html2pdf.js
     const options = {
-      margin: [10, 10, 10, 10], // 1 inch margin on all sides
+      margin: [0, 10, 10, 10], // 1 inch margin on all sides
       filename: 'letter.pdf',
       html2canvas: { scale: 2 }, // Improve canvas quality
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
@@ -187,7 +198,7 @@ const EditLetter = () => {
               <button className="btn btn-primary mt-3" onClick={handleSubmit}>
                 Submit
               </button>
-              <button className="btn btn-secondary mt-3 ml-2" onClick={handleDownloadPDF}>
+              <button className="btn btn-secondary mt-3" onClick={handleDownloadPDF} style={{marginLeft:'20px'}}>
                 Download as PDF
               </button>
             </div>
