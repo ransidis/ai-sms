@@ -10,12 +10,16 @@ const EditNewsView = () => {
   const navigate = useNavigate();
   const [news, setNews] = useState({ title: '', content: '', category: '' });
   const [userType, setUserType] = useState(null);
+  const [urgent, setUrgent] = useState(false);
+  const [urgentExpire, setUrgentExpire] = useState('');
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/news/details/${id}`);
         setNews(response.data.data);
+        setUrgent(!!response.data.data.urgent_expire);
+        setUrgentExpire(response.data.data.urgent_expire || '');
       } catch (error) {
         console.error('Error fetching news:', error);
       }
@@ -54,7 +58,8 @@ const EditNewsView = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8080/api/news/update/${id}`, news);
+      const updatedNews = { ...news, urgent_expire: urgent ? urgentExpire : null };
+      await axios.put(`http://localhost:8080/api/news/update/${id}`, updatedNews);
       navigate(`/news/${id}`);
     } catch (error) {
       console.error('Error updating news:', error);
@@ -121,11 +126,33 @@ const EditNewsView = () => {
                 required
               >
                 <option value="">Select Category</option>
-                <option value="Urgent">Urgent</option>
                 <option value="Academic">Academic</option>
                 <option value="Internship">Internship</option>
                 <option value="Competitions">Competitions</option>
               </select>
+            </div>
+            <div className="form-group mb-4">
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="urgent"
+                  checked={urgent}
+                  onChange={(e) => setUrgent(e.target.checked)}
+                />
+                <label className="form-check-label" htmlFor="urgent">Mark as Urgent</label>
+              </div>
+              {urgent && (
+                <input
+                  type="text"
+                  className="form-control mt-2"
+                  onFocus={(e) => (e.target.type = 'date')}
+                  onBlur={(e) => (e.target.type = 'text')}
+                  value={urgentExpire}
+                  onChange={(e) => setUrgentExpire(e.target.value)}
+                  placeholder="Select Urgent Expire Date"
+                />
+              )}
             </div>
             <div className="d-flex justify-content-between mb-4">
               <button type="submit" className="btn btn-primary">Update News</button>

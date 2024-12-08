@@ -8,12 +8,14 @@ const SingleNewsView = () => {
   const [news, setNews] = useState(null);
   const [user, setUser] = useState(null);
   const [userType, setUserType] = useState(null); // Added state for user type
+  const [urgentExpire, setUrgentExpire] = useState(null); // Add state for urgent expire date
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/news/details/${id}`);
         setNews(response.data.data);
+        setUrgentExpire(response.data.data.urgent_expire); // Set urgent expire date
         const userResponse = await axios.get(`http://localhost:8080/api/lecturer/details/${response.data.data.user_id}`);
         setUser(userResponse.data.data);
       } catch (error) {
@@ -58,6 +60,12 @@ const SingleNewsView = () => {
           <div className="more-info mt-4">
             <p><strong>Posted By:</strong> {user.email}</p>
             <p><strong>Category:</strong> {news.category}</p>
+            {urgentExpire && (
+              <>
+                <p><strong>Urgent Until:</strong> {urgentExpire}</p>
+                <p><strong>Urgent Category:</strong> Urgent</p>
+              </>
+            )}
             {userType === 'lecturer' && (
               <a href={`/edit-news/${id}`} className="btn btn-primary mt-2">Edit this news</a>
             )}

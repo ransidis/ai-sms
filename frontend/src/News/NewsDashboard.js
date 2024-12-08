@@ -51,7 +51,8 @@ const NewsDashboard = () => {
         (news.date && news.date.includes(searchQuery))) && // Match date
         (selectedCategory === '' || news.category === selectedCategory) && // Filter by selected category
         (startDate === '' || new Date(news.date) >= new Date(startDate)) && // Filter by start date
-        (endDate === '' || new Date(news.date) <= new Date(endDate)) // Filter by end date
+        (endDate === '' || new Date(news.date) <= new Date(endDate)) && // Filter by end date
+        (!news.urgent_expire || new Date(news.urgent_expire) > new Date()) // Filter out expired urgent news
     );
     setFilteredNews(filtered);
   };
@@ -125,7 +126,6 @@ const NewsDashboard = () => {
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="">All Categories</option>
-            <option value="Urgent">Urgent</option>
             <option value="Academic">Academic</option>
             <option value="Internship">Internship</option>
           </select>
@@ -172,9 +172,14 @@ const NewsDashboard = () => {
                   <small className="text-muted">
                     <Calendar /> {news.date} &nbsp;|&nbsp; <PersonCircle /> {news.lecturerDetails}
                   </small>
-                  <span className={`badge ${getCategoryClass(news.category)}`}>
-                    {news.category}
-                  </span>
+                  <div>
+                    <span className={`badge ${getCategoryClass(news.category)}`}>
+                      {news.category}
+                    </span>
+                    {news.urgent_expire && (
+                      <span className="badge bg-danger text-white ms-2">Urgent</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

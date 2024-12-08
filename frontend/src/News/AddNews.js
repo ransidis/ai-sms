@@ -14,6 +14,8 @@ const AddNews = () => {
   });
   const [error, setError] = useState('');
   const [userType, setUserType] = useState(null);
+  const [urgent, setUrgent] = useState(false);
+  const [urgentExpire, setUrgentExpire] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +43,8 @@ const AddNews = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/news/add', newsData);
+      const newsToAdd = { ...newsData, urgent_expire: urgent ? urgentExpire : null };
+      const response = await axios.post('http://localhost:8080/api/news/add', newsToAdd);
       alert('News added successfully');
       navigate(`/news`);
     } catch (error) {
@@ -94,11 +97,33 @@ const AddNews = () => {
           style={{ borderColor: '#ced4da', borderRadius: '0.25rem' }}
         >
           <option value="">Select Category</option>
-          <option value="Urgent">Urgent</option>
           <option value="Academic">Academic</option>
           <option value="Internship">Internship</option>
           <option value="Competitions">Competitions</option>
         </select>
+      </div>
+      <div className="mb-3">
+        <div className="form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="urgent"
+            checked={urgent}
+            onChange={(e) => setUrgent(e.target.checked)}
+          />
+          <label className="form-check-label" htmlFor="urgent">Mark as Urgent</label>
+        </div>
+        {urgent && (
+          <input
+            type="text"
+            className="form-control mt-2"
+            onFocus={(e) => (e.target.type = 'date')}
+            onBlur={(e) => (e.target.type = 'text')}
+            value={urgentExpire}
+            onChange={(e) => setUrgentExpire(e.target.value)}
+            placeholder="Select Urgent Expire Date"
+          />
+        )}
       </div>
       <button 
         className="btn btn-danger" 

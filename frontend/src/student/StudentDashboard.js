@@ -16,7 +16,10 @@ const StudentDashboard = () => {
     const fetchUrgentNews = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/news/all');
-        const urgentNews = response.data.data.filter(news => news.category === 'Urgent');
+        const currentDate = new Date();
+        const urgentNews = response.data.data.filter(news => 
+          news.urgent_expire && new Date(news.urgent_expire) >= currentDate
+        );
         setUrgentNews(urgentNews);
       } catch (error) {
         console.error('Error fetching news:', error);

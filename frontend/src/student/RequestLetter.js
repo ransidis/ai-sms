@@ -141,6 +141,7 @@ const RequestLetter = () => {
 
   return (
     <div className="container mt-5">
+      <button className="btn btn-secondary mb-4" onClick={() => navigate(-1)}>Back</button>
       <div className="row">
         <div className="col-md-6 mb-4">
           <div className="form-container p-4 border rounded shadow-sm">
