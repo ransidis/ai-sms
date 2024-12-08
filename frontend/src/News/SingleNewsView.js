@@ -15,7 +15,7 @@ const SingleNewsView = () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/news/details/${id}`);
         setNews(response.data.data);
-        setUrgentExpire(response.data.data.urgent_expire); // Set urgent expire date
+        setUrgentExpire(response.data.data.urgent_expire ? response.data.data.urgent_expire.substring(0, 10) : null); // Set urgent expire date without time part
         const userResponse = await axios.get(`http://localhost:8080/api/lecturer/details/${response.data.data.user_id}`);
         setUser(userResponse.data.data);
       } catch (error) {
@@ -63,7 +63,7 @@ const SingleNewsView = () => {
             {urgentExpire && (
               <>
                 <p><strong>Urgent Until:</strong> {urgentExpire}</p>
-                <p><strong>Urgent Category:</strong> Urgent</p>
+                <p><strong>Urgent Category:</strong> Yes</p>
               </>
             )}
             {userType === 'lecturer' && (

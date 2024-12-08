@@ -158,7 +158,9 @@ const RequestLetter = () => {
                   className="form-control"
                 >
                   <option value="">Select Type</option>
-                  <option value="Recommendation letter">Recommendation letter</option>
+                  <option value="Recommendation Letter">Recommendation Letter</option>
+                  <option value="Endorsement Letter">Endorsement Letter</option>
+                  <option value="Field Visit Request Letter">Field Visit Request Letter</option>
                   <option value="Internship Introduction Letter">Internship Introduction Letter</option>
                 </select>
               </div>

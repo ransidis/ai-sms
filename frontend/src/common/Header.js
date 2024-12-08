@@ -28,8 +28,16 @@ const Header = () => {
     navigate('/login');
   };
 
-  const handleBack = () => {
-    navigate(-1);
+  const handleHome = () => {
+    if (user.email === 'hod@sjp.ac.lk' || user.email === 'lasith@sjp.ac.lk') {
+      navigate('/hod-dashboard');
+    } else if (user.user_type === 'student') {
+      navigate('/student-dashboard');
+    } else if (user.user_type === 'lecturer') {
+      navigate('/lecturer-dashboard');
+    } else {
+      navigate('/');
+    }
   };
 
   if (!user) return null;
@@ -40,14 +48,14 @@ const Header = () => {
       <Col className='d-flex flex-column text-center m-2'>
         <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-            <h2>Howdy, {user.fullname}!</h2>
+            <h2>Hello, {user.fullname}!</h2>
             <p>{user.email}</p>
           </div>
         </div>
       </Col>
       <Col className='d-flex flex-row justify-content-end m-2'>
-        <Button onClick={handleBack} style={{ width: '20%', height: '50%', fontSize: '20px', marginRight: '10px' }}>
-          Back
+        <Button onClick={handleHome} style={{ width: '20%', height: '50%', fontSize: '20px', marginRight: '10px' }}>
+          Home
         </Button>
         <Button onClick={handleLogout} style={{ width: '20%', height: '50%', fontSize: '20px' }}>
           Logout
