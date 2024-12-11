@@ -13,6 +13,7 @@ async function addNewsController(req, res) {
     }
 
     const today = new Date();
+    today.setDate(today.getDate() + 1);
     const date = today.toISOString().split('T')[0];
 
     try {
