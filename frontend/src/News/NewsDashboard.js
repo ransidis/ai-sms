@@ -127,7 +127,8 @@ const NewsDashboard = () => {
           >
             <option value="">All Categories</option>
             <option value="Academic">Academic</option>
-            <option value="Internship">Internship</option>
+          <option value="Internship">Internship</option>
+          <option value="Competitions">Competitions</option>
           </select>
           <input
             placeholder="Start Date"

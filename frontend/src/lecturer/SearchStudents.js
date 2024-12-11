@@ -72,7 +72,6 @@ const SearchStudents = () => {
       });
       setStudentInfo(updatedInfo);
       setIsEditing(false);
-      alert('Student details updated successfully');
       setError(''); // Clear previous errors
     } catch (error) {
       console.error('Error updating student information:', error);
@@ -212,6 +211,9 @@ const SearchStudents = () => {
                         <Button onClick={() => setIsEditing(true)} variant="warning">Edit</Button>
                       )}
                     </div>
+                    {!isEditing && studentInfo && (
+                      <p style={{ color: 'green', marginTop: '10px' }}>Student details updated successfully</p>
+                    )}
                   </Col>
                 </Row>
               </Form>
