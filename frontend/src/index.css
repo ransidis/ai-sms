@@ -14,7 +14,7 @@ code {
 }
 
 Button{
-  background-color: #bf1523 !important;
+  background-color: green !important;
 }
 
 Button:hover{
@@ -33,7 +33,7 @@ Button:hover{
 .footer {
   width: 100vw; /* Full width */
   text-align: center; /* Center text inside footer */
-  background-color: #bf1523; /* Background color */
+  background-color: #066513; /* Background color */
   padding: 10px 0; /* Padding for spacing */
   border-top: 1px solid #dee2e6; /* Optional border for separation */
   color: white;

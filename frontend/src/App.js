@@ -48,20 +48,20 @@ function App() {
             <Route path="/add-news" element={<AddNews />} />
             <Route path="/addusers" element={<BulkUpload />} />
 
-            <Route path="/hod-dashboard" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <HODDashboard /> : <Navigate to="/login" />} />
+            <Route path="/hod-dashboard" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk' || localStorage.getItem('userEmail') === 'malan@nsbm.com') ? <HODDashboard /> : <Navigate to="/login" />} />
             <Route path="/student-dashboard" element={isLoggedIn && userType === 'student' ? <StudentDashboard /> : <Navigate to="/login" />} />
             <Route path="/lecturer-dashboard" element={isLoggedIn && userType === 'lecturer' ? <LecturerDashboard /> : <Navigate to="/login" />} />
             <Route path="/student-profile" element={isLoggedIn && userType === 'student' ? <StudentProfile /> : <Navigate to="/login" />} />
             <Route path="/lecturer-profile" element={isLoggedIn && userType === 'lecturer' ? <LecturerProfile /> : <Navigate to="/login" />} />
             <Route path="/search-students" element={isLoggedIn && userType === 'lecturer' ? <SearchStudents /> : <Navigate to="/login" />} />
             <Route path="/request-letter" element={isLoggedIn && userType === 'student' ? <RequestLetter /> : <Navigate to="/login" />} />
-            <Route path="/letter-requests" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <DisplayLetter /> : <Navigate to="/login" />} />
-            <Route path="/edit/:id" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk') ? <EditLetter /> : <Navigate to="/login" />} />
+            <Route path="/letter-requests" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk' || localStorage.getItem('userEmail') === 'malan@nsbm.com') ? <DisplayLetter /> : <Navigate to="/login" />} />
+            <Route path="/edit/:id" element={isLoggedIn && (localStorage.getItem('userEmail') === 'hod@sjp.ac.lk' || localStorage.getItem('userEmail') === 'lasith@sjp.ac.lk' || localStorage.getItem('userEmail') === 'malan@nsbm.com') ? <EditLetter /> : <Navigate to="/login" />} />
             <Route path="/edit-news/:id" element={isLoggedIn ? <EditNewsView /> : <Navigate to="/login" />} />
           </Routes>
         </div>
         <div className="footer">
-          <h6>Department of Information Technology - University of Sri Jayewardenepura</h6>
+          <h6>NSBM Green University</h6>
         </div>
       </div>
     </div>

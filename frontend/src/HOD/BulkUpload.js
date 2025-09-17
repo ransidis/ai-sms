@@ -78,7 +78,7 @@ const BulkUpload = () => {
           fullname: lecturer.fullname,
           email: lecturer.email,
           password: lecturer.password, // You may want to hash this server-side
-          user_type: 'student',
+          user_type: 'lecturer',
           position: lecturer.position,
           hod: false, // Always send false
         };

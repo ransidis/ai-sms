@@ -39,7 +39,7 @@ const Login = () => {
 
       setMessageType('success');
       setMessage('Login successful');
-      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
+      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk' || decoded.email === 'malan@nsbm.com') {
         navigate('/hod-dashboard');
       } else if (decoded.user_type === 'student') {
         navigate('/student-dashboard');
@@ -72,7 +72,7 @@ const Login = () => {
 
       setMessageType('success');
       setMessage('Google Login successful');
-      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk') {
+      if (decoded.email === 'hod@sjp.ac.lk' || decoded.email === 'lasith@sjp.ac.lk' || decoded.email === 'malan@nsbm.com') {
         navigate('/hod-dashboard');
       } else if (decoded.user_type === 'student') {
         navigate('/student-dashboard');

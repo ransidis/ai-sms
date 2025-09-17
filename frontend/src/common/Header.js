@@ -29,7 +29,7 @@ const Header = () => {
   };
 
   const handleHome = () => {
-    if (user.email === 'hod@sjp.ac.lk' || user.email === 'lasith@sjp.ac.lk') {
+    if (user.email === 'hod@sjp.ac.lk' || user.email === 'lasith@sjp.ac.lk' || user.email === 'malan@nsbm.com') {
       navigate('/hod-dashboard');
     } else if (user.user_type === 'student') {
       navigate('/student-dashboard');
